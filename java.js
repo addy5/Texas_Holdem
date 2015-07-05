@@ -13,23 +13,27 @@
   };
 
 
+
 $( document ).ready(function() {
 
   console.log("ready");
+  $('.playerContainer.player2').hide(2000);
+  $('.playerContainer.player1').hide(2000);
+  $('.playerContainer.hide').hide(2000);
 
-  $sa = {suite: "S",value: 14, image: "spade/sa.png"};
-  $s2 = {suite: "S",value: 2, image: "spade/s2.png"};
-  $s3 = {suite: "S",value: 3, image: "spade/s3.png"};
-  $s4 = {suite: "S",value: 4, image: "spade/s4.png"};
-  $s5 = {suite: "S",value: 5, image: "spade/s5.png"};
-  $s6 = {suite: "S",value: 6, image: "spade/s6.png"};
-  $s7 = {suite: "S",value: 7, image: "spade/s7.png"};
-  $s8 = {suite: "S",value: 8, image: "spade/s8.png"};
-  $s9 = {suite: "S",value: 9, image: "spade/s9.png"};
-  $s10 = {suite: "S",value: 10, image: "spade/s10.png"};
-  $sj = {suite: "S",value: 11, image: "spade/sj.png"};
-  $sq = {suite: "S",value: 12, image: "spade/sq.png"};
-  $sk = {suite: "S",value: 13, image: "spade/sk.png"};
+  $sa = {suite: "s",value: 14, image: "spade/sa.png"};
+  $s2 = {suite: "s",value: 2, image: "spade/s2.png"};
+  $s3 = {suite: "s",value: 3, image: "spade/s3.png"};
+  $s4 = {suite: "s",value: 4, image: "spade/s4.png"};
+  $s5 = {suite: "s",value: 5, image: "spade/s5.png"};
+  $s6 = {suite: "s",value: 6, image: "spade/s6.png"};
+  $s7 = {suite: "s",value: 7, image: "spade/s7.png"};
+  $s8 = {suite: "s",value: 8, image: "spade/s8.png"};
+  $s9 = {suite: "s",value: 9, image: "spade/s9.png"};
+  $s10 = {suite: "s",value: 10, image: "spade/s10.png"};
+  $sj = {suite: "s",value: 11, image: "spade/sj.png"};
+  $sq = {suite: "s",value: 12, image: "spade/sq.png"};
+  $sk = {suite: "s",value: 13, image: "spade/sk.png"};
 
   $ha = {suite: "h",value: 14, image: "hearts/ha.png"};
   $h2 = {suite: "h",value: 2, image: "hearts/h2.png"};
@@ -82,7 +86,8 @@ $( document ).ready(function() {
     var dealerCard1 = deck[draw()];
     var dealerCard2 = deck[draw()];
     var dealerCard3 = deck[draw()];
-
+    var dealerCard4 = deck[draw()];
+    var dealerCard5 = deck[draw()];
 
     var player1Card1 = deck[draw()];
     var player1Card2 = deck[draw()];
@@ -91,7 +96,8 @@ $( document ).ready(function() {
     var player2Card2 = deck[draw()];
 
 
-  $('button').on('click',function(){
+  $('.next').on('click',function(){
+
     $('#cardA').attr('src',dealerCard1.image);
     $('#cardB').attr('src',dealerCard2.image);
     $('#cardC').attr('src',dealerCard3.image);
@@ -102,8 +108,126 @@ $( document ).ready(function() {
     $('#cardP2C1').attr('src',player2Card1.image);
     $('#cardP2C2').attr('src',player2Card2.image);
 
+
+        var player1hand = [dealerCard1.value, dealerCard2.value, dealerCard3.value, player1Card1.value, player1Card2.value];
+        player1hand = player1hand.sort(function(a, b){return a-b;});
+
+        console.log("P1 Hand: "+player1hand);
+
+        var player2hand = [dealerCard1.value, dealerCard2.value, dealerCard3.value, player2Card1.value, player2Card2.value];
+        player2hand = player2hand.sort(function(a, b){return a-b;});
+
+        console.log("P2 Hand: "+player2hand);
   });
 
+
+//highlight  player1 tab when selected *************************
+    $(".player1tab").on('click',function(){
+    $('.playerContainer.active').slideUp(500, function(){
+          $('.playerContainer.player1').slideDown(800);
+    });
+    $('.playerContainer.active').removeClass('active');
+    $('.playerContainer.player1').addClass('active');
+    $(".playerTab.highlight").removeClass('highlight');
+    $(".player1tab").addClass('highlight');
+
+  });
+
+//highlight  player2 tab when selected *************************
+  $(".player2tab").on('click',function(){
+    $('.playerContainer.active').slideUp(500, function(){
+          $('.playerContainer.player2').slideDown(800);
+    });
+    $('.playerContainer.active').removeClass('active');
+    $('.playerContainer.player2').addClass('active');
+    $(".playerTab.highlight").removeClass('highlight');
+    $(".player2tab").addClass('highlight');
+
+  });
+
+//clear both tabs when selected  *************************
+  $(".playerHide").on('click',function(){
+    $('.playerContainer.active').removeClass('active');
+    $('.playerContainer.player2').addClass('active');
+    $(".playerTab.highlight").removeClass('highlight');
+    $(".playerHide").addClass('highlight');
+    $('.playerContainer.player2').slideUp(500);
+    $('.playerContainer.player1').slideUp(500);
+  });
+
+
+//move fourth card code *************************
+  var topp = 20;
+  var right = 50;
+
+  var moveCard4 = function(){
+    console.log("works");
+    if(topp < 46 || right < 325){
+    topp = topp + 0.591;
+    right = right + 6;
+    $('#card').css('top',topp);
+    $('#card').css('right',right);
+    }else{
+      $('#card').attr('src',dealerCard4.image);
+      $('#cardD').hide();
+      clearInterval();
+    }
+  };
+
+
+  var addMove4 = function(){
+    setInterval(moveCard4,15);
+    var player1hand = [dealerCard1.value, dealerCard2.value, dealerCard3.value, player1Card1.value, player1Card2.value, dealerCard4.value];
+
+    player1hand = player1hand.sort(function(a, b){return a-b;});
+
+
+    console.log("P1 Hand: "+player1hand);
+
+    var player2hand = [dealerCard1.value, dealerCard2.value, dealerCard3.value, player2Card1.value, player2Card2.value, dealerCard4.value];
+    player2hand = player2hand.sort(function(a, b){return a-b;});
+
+    console.log("P2 Hand: "+player2hand);
+  };
+
+$('#card').on('click',addMove4);
+
+
+//move river card code *************************
+  var top1 = 18;
+  var right1 = 48;
+
+  var moveCard5 = function(){
+    console.log("works");
+    if(top1 < 46 || right1 < 167){
+    top1 = top1 + 2;
+    right1 = right1 + 15;
+    $('#card1').css('top',top1);
+    $('#card1').css('right',right1);
+    }else{
+      $('#card1').attr('src',dealerCard5.image);
+      // $('#cardE').hide();
+      clearInterval(addMove5);
+    }
+  };
+
+
+  var addMove5 = function(){
+    setInterval(moveCard5,15);
+    var player1hand = [dealerCard1.value, dealerCard2.value, dealerCard3.value, player1Card1.value, player1Card2.value, dealerCard4.value, dealerCard5.value];
+
+    player1hand = player1hand.sort(function(a, b){return a-b;});
+
+
+    console.log("P1 Hand: "+player1hand);
+
+    var player2hand = [dealerCard1.value, dealerCard2.value, dealerCard3.value, player2Card1.value, player2Card2.value, dealerCard4.value, dealerCard5.value];
+    player2hand = player2hand.sort(function(a, b){return a-b;});
+
+    console.log("P2 Hand: "+player2hand);
+  };
+
+$('#card1').on('click',addMove5);
 
 
 });

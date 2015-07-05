@@ -10,12 +10,21 @@
   </head>
 
   <body>
+
+
   <div id="container">
+
+<!-- Left Side Bar ------------------->
     <div id="leftSideBar">
       <p>Player Tool Bar</p>
+      <button class="next">Next Game</button><br>
+      <button class="four">Fourth</button>
       <div id="pool"></div>
       <div id="bet"></div>
+
     </div>
+
+
 <div id="rightSide">
     <div id="dealerContainer">
     <p> Dealer </p>
@@ -28,22 +37,40 @@
     <img id="cardA" src="blueCard.png">
     <img id="cardB" src="blueCard.png">
     <img id="cardC" src="blueCard.png">
+
+
+<!--4th card -->
+    <img id="cardD" src="blueCard.png">
+
+<!--River card -->
+    <img id="cardE" src="blueCard.png">
     </div>
 
-    <div class="playerContainer">
+
+
+<!--Player tabs and containers ------------------->
+    <div>
+    <ul>
+    <li class="playerTab player1tab">Player 1</li>
+    <li class="playerTab playerHide"></li>
+    <li class="playerTab player2tab">Player 2</li>
+    </div>
+    <div class="playerContainer player1">
       <p class="yourHand">Your Hand</p>
       <img id="cardP1C1" src="blueCard.png">
       <img id="cardP1C2" src="blueCard.png">
-
-      <button>button</button>
     </div>
 
-    <div class="playerContainer">
+<!--- middle        -->
+<div class="playerContainer hide active">
+</div>
+
+    <div class="playerContainer player2">
       <p class="yourHand">Your Hand</p>
       <img id="cardP2C1" src="blueCard.png">
       <img id="cardP2C2" src="blueCard.png">
 
-      <button>button</button>
+
     </div>
 
 </div>

@@ -5,7 +5,7 @@ body{
 }
 
 #container{
-  width:1000px;
+  width:1100px;
   margin: 0 auto;
   border: 1px dotted grey;
 
@@ -27,6 +27,10 @@ body{
     font-size: 22px;
 }
 
+button{
+  margin-top: 20px;
+}
+
 #pool{
   width:150px;
   height:50px;
@@ -44,7 +48,7 @@ body{
 }
 
 #rightSide{
-  width:700px;
+  width:850px;
   height:550px;
   border: 2px solid grey;
   position: relative;
@@ -54,7 +58,7 @@ body{
 }
 
 #dealerContainer{
-  width: 680px;
+  width: 780px;
   height: 200px;
   border: 2px solid grey;
   display: inline-block;
@@ -75,13 +79,16 @@ body{
   position: absolute;
   top: 20px;
   right:50px;
+  border-radius: 4px;
+  z-index: 1;
 }
 #card1{
   height: 140px;
   position: absolute;
   top: 18px;
   right:48px;
-  z-index: -1;
+  z-index: 0;
+  border-radius: 4px;
 }
 #card2{
   height: 140px;
@@ -89,6 +96,7 @@ body{
   top: 16px;
   right:46px;
   z-index: -2;
+  border-radius: 4px;
 }
 #card3{
   height: 140px;
@@ -96,6 +104,7 @@ body{
   top: 14px;
   right:44px;
   z-index: -3;
+  border-radius: 4px;
 }
 
 #cardA{
@@ -122,15 +131,58 @@ body{
   border-radius: 4px;
 }
 
+#cardD{
+  height: 140px;
+  position: absolute;
+  bottom: 14px;
+  left: 355px;
+  border-radius: 4px;
+  opacity: 0.1;
+  z-index: -1;
+}
 
+#cardE{
+  height: 140px;
+  position: absolute;
+  bottom: 14px;
+  left: 465px;
+  border-radius: 4px;
+  opacity: 0.1;
+}
+
+.playerTab, .playerHide{
+    display:inline-block;
+    width:120px;
+    height:30px;
+    background-color: rgb(192,192,192);
+    color:white;
+    text-align: center;
+    font-size: 22px;
+    vertical-align: top;
+    padding-top: 10px;
+    margin-top:40px;
+    border-radius: 10px 10px 0 0;
+}
+
+.highlight{
+  background-color: rgb(128,128,128);
+}
 
 .playerContainer{
   width: 330px;
-  height: 250px;
+  height: 220px;
   border: 2px solid grey;
   display: inline-block;
   position: relative;
-  top:70px
+}
+
+.playerContainer.hide{
+  width: 60px;
+  height: 220px;
+  border: none;
+  display: inline-block;
+  position: relative;
+  margin:0 0 0 0;
 }
 
 .yourHand{

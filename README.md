@@ -35,4 +35,9 @@ Optional Functions of **Blackjack**:
 * Dynamic calculation of odds
 * Style the game background and elements like a real table
 
+
+As a user, I want the game to semi-realistic and play by common rules.
+As a user, I never want to guess what each button does.
+As a gamer, I want to be entertained as if it were the real deal.
+
 > Written with [StackEdit](https://stackedit.io/).

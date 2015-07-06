@@ -335,7 +335,7 @@ $('#card1').on('click',addMove5);
 
 //Player 1 raise  bid ********************************
   var raisep1 = function(){
-    if (player1Total === 0){
+    if (player1Total === 0 || player1Bet >= (player2Bet + player2Total)){
       return null;
     } else{
         player1Bet = player1Bet + 5;
@@ -348,7 +348,7 @@ $('#p1raise').on('click',raisep1);
 
 //Player 2 raise  bid ********************************
   var raisep2 = function(){
-    if (player2Total === 0){
+    if (player2Total === 0 || player2Bet >= (player1Bet + player1Total)){
       return null;
     } else{
         player2Bet = player2Bet + 5;
@@ -359,9 +359,27 @@ $('#p1raise').on('click',raisep1);
   };
 $('#p2raise').on('click',raisep2);
 
+//Player 1 fold   ********************************
+  var foldp1 = function(){
+    var oldP2Bet = player2Bet;
+    player2Bet = 10;
+    player2Total = player2Total + player1Bet + oldP2Bet - player2Bet;
+    player1Bet = 5;
+    player1Total = player1Total - player1Bet;
+    $('.p1bet').text('$'+player1Bet);
+    $('.p1total').text('$'+player1Total);
+
+    $('.p2bet').text('$'+player2Bet);
+    $('.p2total').text('$'+player2Total);
+
+  };
+$('#p1fold').on('click',foldp1);
+
 //Player 2 fold   ********************************
   var foldp2 = function(){
-    player1Total = player1Total + player2Bet;
+    var oldP1Bet = player1Bet;
+    player1Bet = 5;
+    player1Total = player1Total + player2Bet + oldP1Bet - player1Bet;
     player2Bet = 10;
     player2Total = player2Total - player2Bet;
     $('.p2bet').text('$'+player2Bet);
@@ -372,6 +390,45 @@ $('#p2raise').on('click',raisep2);
 
   };
 $('#p2fold').on('click',foldp2);
+
+//Player 1 Call   ********************************
+  var callp1 = function(){
+
+    if (player1Bet === player2Bet || player1Bet > player2Bet){
+      return null;
+    } else {
+      var oldP1Bet = player1Bet;
+      player1Bet = player1Bet + (player2Bet - player1Bet);
+      player1Total = player1Total - player1Bet + oldP1Bet;
+
+      $('.p1bet').text('$'+player1Bet);
+      $('.p1total').text('$'+player1Total);
+      $('.p2bet').text('$'+player2Bet);
+      $('.p2total').text('$'+player2Total);
+    }
+  };
+
+$('#p1call').on('click',callp1);
+
+//Player 2 Call   ********************************
+  var callp2 = function(){
+
+    if (player2Bet === player1Bet || player2Bet > player1Bet){
+      return null;
+    } else {
+      var oldP2Bet = player2Bet;
+      player2Bet = player2Bet + (player1Bet - player2Bet);
+      player2Total = player2Total - player2Bet + oldP2Bet;
+
+      $('.p1bet').text('$'+player1Bet);
+      $('.p1total').text('$'+player1Total);
+      $('.p2bet').text('$'+player2Bet);
+      $('.p2total').text('$'+player2Total);
+    }
+  };
+
+$('#p2call').on('click',callp2);
+
 
 
 

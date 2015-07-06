@@ -15,6 +15,7 @@ Optional Functions of **Texas Holdem**:
 * Dynamic side notes and tips for beginners 
 * Style the game background and elements like a real table
 * Add my own rules to the game
+
 ![standard TH table](http://www.gamesandcasino.com/system/table_game/screenshots/attachments/000/004/870/original/texasholdem-vi.jpg?1429715455)
 
 

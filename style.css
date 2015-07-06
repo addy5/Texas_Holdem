@@ -23,28 +23,84 @@ body{
 }
 
 #leftSideBar p{
-    margin-top: 10px;
-    font-size: 22px;
+    margin-top: 20px;
+    font-size: 20px;
 }
 
-button{
+#leftSideBar span{
+    margin-top: 20px;
+    padding-top: 10px;
+    font-size: 18px;
+    vertical-align: bottom;
+}
+
+#leftSideBar hr{
+    width: 160px;
+    height: 1px;
+}
+
+
+button.next{
   margin-top: 20px;
+  width:110px;
+  height:33px;
+  border-radius: 5px;
+  background-color: yellow;
+  font-size: 12px;
+  font-weight: bold;
 }
 
-#pool{
-  width:150px;
+.p1bet{
+  width:75px;
   height:50px;
   background-color: white;
   color:black;
-  margin: 20px auto;
+  margin: 10px auto;
+  display:inline-block;
+  margin-right:5px;
+  font-size: 20px;
+  line-height: 50px;
+  vertical-align: top;
 }
 
-#bet{
-  width:150px;
+.p2bet{
+  width:75px;
   height:50px;
   background-color: white;
   color:black;
-  margin: 20px auto;
+  margin: 10px auto;
+  display:inline-block;
+  margin-left:5px;
+  margin-right:5px;
+  font-size: 20px;
+  line-height: 50px;
+  vertical-align: top;
+}
+
+.p1total{
+  width:75px;
+  height:50px;
+  line-height: 50px;
+  vertical-align: top;
+  background-color: white;
+  color:black;
+  margin: 10px auto;
+  display:inline-block;
+  margin-right:5px;
+  font-size: 20px;
+}
+
+.p2total{
+  width:75px;
+  height:50px;
+  line-height: 50px;
+  vertical-align: top;
+  background-color: white;
+  color:black;
+  margin: 10px auto;
+  display:inline-block;
+  margin-left:5px;
+  font-size: 20px;
 }
 
 #rightSide{
@@ -82,6 +138,17 @@ button{
   border-radius: 4px;
   z-index: 1;
 }
+
+#cardA, #cardB, #cardC{
+  height: 140px;
+  position: absolute;
+  top: 20px;
+  right:50px;
+  border-radius: 4px;
+  z-index: 1;
+}
+
+
 #card1{
   height: 140px;
   position: absolute;
@@ -107,7 +174,7 @@ button{
   border-radius: 4px;
 }
 
-#cardA{
+/*#cardA{
   height: 140px;
   position: absolute;
   bottom: 14px;
@@ -121,15 +188,15 @@ button{
   bottom: 14px;
   left: 135px;
   border-radius: 4px;
-}
+}*/
 
-#cardC{
+/*#cardC{
   height: 140px;
   position: absolute;
   bottom: 14px;
   left: 245px;
   border-radius: 4px;
-}
+}*/
 
 #cardD{
   height: 140px;
@@ -169,20 +236,46 @@ button{
 }
 
 .playerContainer{
-  width: 330px;
+  width: 364px;
   height: 220px;
-  border: 2px solid grey;
+  border: 3px solid grey;
+  border-top: 4px solid grey;
   display: inline-block;
   position: relative;
 }
 
 .playerContainer.hide{
-  width: 60px;
+  width: 2px;
   height: 220px;
   border: none;
   display: inline-block;
   position: relative;
   margin:0 0 0 0;
+}
+
+.pbutton{
+  width:65px;
+  height:30px;
+  font-size: 15px;
+  display: inline-block;
+  position: absolute;
+  border-radius: 5px;
+  vertical-align: top;
+}
+
+.bCall{
+  top:30px;
+  right:15px;
+}
+
+.bRaise{
+  top:80px;
+  right:15px;
+}
+
+.bFold{
+  top:130px;
+  right:15px;
 }
 
 .yourHand{
@@ -200,6 +293,7 @@ button{
   bottom: 32px;
   left:30px;
   border-radius: 4px;
+  opacity:0.2;
 }
 
 #cardP1C2{
@@ -208,6 +302,7 @@ button{
   bottom: 32px;
   left:135px;
   border-radius: 4px;
+  opacity:0.2;
 }
 
 #cardP2C1{
@@ -216,6 +311,7 @@ button{
   bottom: 32px;
   left:30px;
   border-radius: 4px;
+  opacity:0.2;
 }
 
 #cardP2C2{
@@ -224,4 +320,5 @@ button{
   bottom: 32px;
   left:135px;
   border-radius: 4px;
+  opacity:0.2;
 }

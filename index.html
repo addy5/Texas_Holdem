@@ -18,9 +18,14 @@
     <div id="leftSideBar">
       <p>Player Tool Bar</p>
       <button class="next">Next Game</button><br>
-      <button class="four">Fourth</button>
-      <div id="pool"></div>
-      <div id="bet"></div>
+      <p>Current Bet: <br> <span>Player 1 &nbsp; &nbsp; &nbsp;&nbsp;Player 2<span></p>
+      <div class="p1bet"></div>
+      <div class="p2bet"></div>
+
+<hr>
+      <p>Total: <br> <span>Player 1 &nbsp; &nbsp; &nbsp;Player 2<span></p>
+      <div class="p1total"></div>
+      <div class="p2total"></div>
 
     </div>
 
@@ -32,12 +37,16 @@
     <img id="card1" src="blueCard.png">
     <img id="card2" src="blueCard.png">
     <img id="card3" src="blueCard.png">
-
-<!--first three dealer cards ------------------->
     <img id="cardA" src="blueCard.png">
     <img id="cardB" src="blueCard.png">
     <img id="cardC" src="blueCard.png">
 
+
+<!--first three dealer cards ------------------->
+    <!-- <img id="cardA" src="blueCard.png">
+    <img id="cardB" src="blueCard.png"> -->
+    <!-- <img id="cardC" src="blueCard.png">
+ -->
 
 <!--4th card -->
     <img id="cardD" src="blueCard.png">
@@ -55,21 +64,32 @@
     <li class="playerTab playerHide"></li>
     <li class="playerTab player2tab">Player 2</li>
     </div>
+
+<!--Player1 container ------------------->
     <div class="playerContainer player1">
       <p class="yourHand">Your Hand</p>
       <img id="cardP1C1" src="blueCard.png">
       <img id="cardP1C2" src="blueCard.png">
+
+      <button id='p1call' class='pbutton bCall'>Call</button>
+      <button id='p1raise' class='pbutton bRaise'>Raise</button>
+      <button id='p1fold' class='pbutton bFold'>Fold</button>
+
     </div>
 
 <!--- middle        -->
 <div class="playerContainer hide active">
 </div>
 
+<!--Player2 containers ------------------->
     <div class="playerContainer player2">
       <p class="yourHand">Your Hand</p>
       <img id="cardP2C1" src="blueCard.png">
       <img id="cardP2C2" src="blueCard.png">
 
+      <button id='p1call' class='pbutton bCall'>Call</button>
+      <button id='p2raise' class='pbutton bRaise'>Raise</button>
+      <button id='p2fold' class='pbutton bFold'>Fold</button>
 
     </div>
 

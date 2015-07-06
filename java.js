@@ -12,14 +12,22 @@
     }
   };
 
+  var player1Total = 195;
+  var player2Total = 190;
+  var player1Bet = 5;
+  var player2Bet = 10;
+
 
 
 $( document ).ready(function() {
 
   console.log("ready");
-  $('.playerContainer.player2').hide(2000);
-  $('.playerContainer.player1').hide(2000);
-  $('.playerContainer.hide').hide(2000);
+
+  $('.p1total').text("$"+player1Total);
+  $('.p2total').text("$"+player2Total);
+  $('.p1bet').text("$"+player1Bet);
+  $('.p2bet').text("$"+player2Bet);
+
 
   $sa = {suite: "s",value: 14, image: "spade/sa.png"};
   $s2 = {suite: "s",value: 2, image: "spade/s2.png"};
@@ -97,28 +105,116 @@ $( document ).ready(function() {
 
 
   $('.next').on('click',function(){
-
-    $('#cardA').attr('src',dealerCard1.image);
-    $('#cardB').attr('src',dealerCard2.image);
-    $('#cardC').attr('src',dealerCard3.image);
-
-    $('#cardP1C1').attr('src',player1Card1.image);
-    $('#cardP1C2').attr('src',player1Card2.image);
-
-    $('#cardP2C1').attr('src',player2Card1.image);
-    $('#cardP2C2').attr('src',player2Card2.image);
-
+    moveDC1();
+    moveDC2();
+    moveDC3();
+    $('.playerContainer.player2').hide(2000, function(){
+      $('.playerContainer.player1').hide(2000, function(){
+        $('.playerContainer.hide').hide(500, function(){
+              $('#cardA').attr('src',dealerCard1.image);
+              $('#cardB').attr('src',dealerCard2.image);
+              $('#cardC').attr('src',dealerCard3.image);
+              $('#cardP1C1').attr('src',player1Card1.image);
+              $('#cardP1C1').css('opacity',1);
+              $('#cardP1C2').attr('src',player1Card2.image);
+              $('#cardP1C2').css('opacity',1);
+              $('#cardP2C1').attr('src',player2Card1.image);
+              $('#cardP2C1').css('opacity',1);
+              $('#cardP2C2').attr('src',player2Card2.image);
+              $('#cardP2C2').css('opacity',1);
+        });
+      });
+    });
 
         var player1hand = [dealerCard1.value, dealerCard2.value, dealerCard3.value, player1Card1.value, player1Card2.value];
         player1hand = player1hand.sort(function(a, b){return a-b;});
 
-        console.log("P1 Hand: "+player1hand);
+        var player1suites = [dealerCard1.suite, dealerCard2.suite, dealerCard3.suite, player1Card1.suite, player1Card2.suite];
+        player1suites = player1suites.sort();
+
+
+        console.log("P1 Hand: "+ player1hand + " "+player1suites);
 
         var player2hand = [dealerCard1.value, dealerCard2.value, dealerCard3.value, player2Card1.value, player2Card2.value];
         player2hand = player2hand.sort(function(a, b){return a-b;});
 
-        console.log("P2 Hand: "+player2hand);
+        var player2suites = [dealerCard1.suite, dealerCard2.suite, dealerCard3.suite, player2Card1.suite, player2Card2.suite];
+        player2suites = player2suites.sort();
+
+        console.log("P2 Hand: "+player2hand + " "+player2suites);
   });
+
+  // var addMovep1c1 = function(){
+  //   var tops = 20;
+  //   var right = 50;
+  //
+  //   var cardmove = setInterval(function(){
+  //     console.log("works");
+  //     if(tops < 330 && right < 620){
+  //     tops = tops + 14.31;
+  //     right = right + 26.5;
+  //     $('#cardX1').css('top',tops);
+  //     $('#cardX1').css('right',right);
+  //     }else{
+  //       clearInterval(cardmove);
+  //     }
+  //
+  //   },20);
+  // };
+
+  var moveDC1 = function(){
+    var tops = 20;
+    var right = 50;
+
+    var cardmove = setInterval(function(){
+      console.log("works");
+      if(tops < 46 && right < 642){
+      tops = tops + 1.13;
+      right = right + 26.28;
+      $('#cardA').css('top',tops);
+      $('#cardA').css('right',right);
+      }else{
+        clearInterval(cardmove);
+      }
+
+    },25);
+  };
+
+  var moveDC2 = function(){
+    var tops = 20;
+    var right = 50;
+
+    var cardmove = setInterval(function(){
+      console.log("works");
+      if(tops < 46 && right < 540){
+      tops = tops + 1.27;
+      right = right + 24.8;
+      $('#cardB').css('top',tops);
+      $('#cardB').css('right',right);
+      }else{
+        clearInterval(cardmove);
+      }
+
+    },35);
+  };
+
+  var moveDC3 = function(){
+    var tops = 20;
+    var right = 50;
+
+    var cardmove = setInterval(function(){
+      console.log("works");
+      if(tops < 46 && right < 430){
+      tops = tops + 1.1;
+      right = right + 16.05;
+      $('#cardC').css('top',tops);
+      $('#cardC').css('right',right);
+      }else{
+        clearInterval(cardmove);
+      }
+
+    },35);
+  };
 
 
 //highlight  player1 tab when selected *************************
@@ -157,77 +253,127 @@ $( document ).ready(function() {
 
 
 //move fourth card code *************************
-  var topp = 20;
-  var right = 50;
-
-  var moveCard4 = function(){
-    console.log("works");
-    if(topp < 46 || right < 325){
-    topp = topp + 0.591;
-    right = right + 6;
-    $('#card').css('top',topp);
-    $('#card').css('right',right);
-    }else{
-      $('#card').attr('src',dealerCard4.image);
-      $('#cardD').hide();
-      clearInterval();
-    }
-  };
-
 
   var addMove4 = function(){
-    setInterval(moveCard4,15);
-    var player1hand = [dealerCard1.value, dealerCard2.value, dealerCard3.value, player1Card1.value, player1Card2.value, dealerCard4.value];
+    var topp = 20;
+    var right = 50;
 
+    var card4move = setInterval(function(){
+      console.log("works");
+      if(topp < 46 || right < 325){
+      topp = topp + 0.591;
+      right = right + 6;
+      $('#card').css('top',topp);
+      $('#card').css('right',right);
+      }else{
+        $('#card').attr('src',dealerCard4.image);
+        $('#cardD').hide();
+        clearInterval(card4move);
+      }
+
+    },15);
+
+    player1hand = [dealerCard1.value, dealerCard2.value, dealerCard3.value, dealerCard4.value, player1Card1.value, player1Card2.value];
     player1hand = player1hand.sort(function(a, b){return a-b;});
 
+    player1suites = [dealerCard1.suite, dealerCard2.suite, dealerCard3.suite, dealerCard4.suite, player1Card1.suite, player1Card2.suite];
+    player1suites = player1suites.sort();
 
-    console.log("P1 Hand: "+player1hand);
 
-    var player2hand = [dealerCard1.value, dealerCard2.value, dealerCard3.value, player2Card1.value, player2Card2.value, dealerCard4.value];
+    console.log("P1 Hand: "+ player1hand + " "+player1suites);
+
+    player2hand = [dealerCard1.value, dealerCard2.value, dealerCard3.value, dealerCard4.value, player2Card1.value, player2Card2.value];
     player2hand = player2hand.sort(function(a, b){return a-b;});
 
-    console.log("P2 Hand: "+player2hand);
+    player2suites = [dealerCard1.suite, dealerCard2.suite, dealerCard3.suite, dealerCard4.suite, player2Card1.suite, player2Card2.suite];
+    player2suites = player2suites.sort();
+
+    console.log("P2 Hand: "+player2hand + " "+player2suites);
   };
 
 $('#card').on('click',addMove4);
 
 
 //move river card code *************************
-  var top1 = 18;
-  var right1 = 48;
-
-  var moveCard5 = function(){
-    console.log("works");
-    if(top1 < 46 || right1 < 167){
-    top1 = top1 + 2;
-    right1 = right1 + 15;
-    $('#card1').css('top',top1);
-    $('#card1').css('right',right1);
-    }else{
-      $('#card1').attr('src',dealerCard5.image);
-      // $('#cardE').hide();
-      clearInterval(addMove5);
-    }
-  };
 
 
   var addMove5 = function(){
-    setInterval(moveCard5,15);
-    var player1hand = [dealerCard1.value, dealerCard2.value, dealerCard3.value, player1Card1.value, player1Card2.value, dealerCard4.value, dealerCard5.value];
+    var top1 = 18;
+    var right1 = 48;
+    var card5move = setInterval(function(){
+      console.log("works");
+      if(top1 < 46 || right1 < 167){
+      top1 = top1 + 0.71;
+      right1 = right1 + 4.23;
+      $('#card1').css('top',top1);
+      $('#card1').css('right',right1);
+      }else{
+        $('#card1').attr('src',dealerCard5.image);
+        $('#cardE').hide();
+        clearInterval(card5move);
+      }
+    },15);
 
+    player1hand = [dealerCard1.value, dealerCard2.value, dealerCard3.value, player1Card1.value, player1Card2.value, dealerCard4.value, dealerCard5.value];
     player1hand = player1hand.sort(function(a, b){return a-b;});
 
+    player1suites = [dealerCard1.suite, dealerCard2.suite, dealerCard3.suite, dealerCard4.suite, dealerCard5.suite, player1Card1.suite, player1Card2.suite];
+    player1suites = player1suites.sort();
 
-    console.log("P1 Hand: "+player1hand);
+    console.log("P1 Hand: "+ player1hand + " "+player1suites);
 
-    var player2hand = [dealerCard1.value, dealerCard2.value, dealerCard3.value, player2Card1.value, player2Card2.value, dealerCard4.value, dealerCard5.value];
+    player2hand = [dealerCard1.value, dealerCard2.value, dealerCard3.value, player2Card1.value, player2Card2.value, dealerCard4.value, dealerCard5.value];
     player2hand = player2hand.sort(function(a, b){return a-b;});
 
-    console.log("P2 Hand: "+player2hand);
+    player2suites = [dealerCard1.suite, dealerCard2.suite, dealerCard3.suite, dealerCard4.suite, dealerCard5.suite, player2Card1.suite, player2Card2.suite];
+    player2suites = player2suites.sort();
+
+    console.log("P2 Hand: "+player2hand + " "+player2suites);
   };
 
 $('#card1').on('click',addMove5);
+
+//Player 1 raise  bid ********************************
+  var raisep1 = function(){
+    if (player1Total === 0){
+      return null;
+    } else{
+        player1Bet = player1Bet + 5;
+        player1Total = player1Total - 5;
+        $('.p1bet').text('$'+player1Bet);
+        $('.p1total').text('$'+player1Total);
+      }
+  };
+$('#p1raise').on('click',raisep1);
+
+//Player 2 raise  bid ********************************
+  var raisep2 = function(){
+    if (player2Total === 0){
+      return null;
+    } else{
+        player2Bet = player2Bet + 5;
+        player2Total = player2Total - 5;
+        $('.p2bet').text('$'+player2Bet);
+        $('.p2total').text('$'+player2Total);
+      }
+  };
+$('#p2raise').on('click',raisep2);
+
+//Player 2 fold   ********************************
+  var foldp2 = function(){
+    player1Total = player1Total + player2Bet;
+    player2Bet = 10;
+    player2Total = player2Total - player2Bet;
+    $('.p2bet').text('$'+player2Bet);
+    $('.p2total').text('$'+player2Total);
+
+    $('.p1bet').text('$'+player1Bet);
+    $('.p1total').text('$'+player1Total);
+
+  };
+$('#p2fold').on('click',foldp2);
+
+
 
 
 });

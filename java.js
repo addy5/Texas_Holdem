@@ -17,6 +17,10 @@
   var player1Bet = 5;
   var player2Bet = 10;
 
+  //callCount must be > 1 in a round to proceed
+  var callCount = 0;
+  // if currentRound = 1 (next fourth); if currentRound = 2 (river)
+  var currentRound = 1;
 
 
 $( document ).ready(function() {
@@ -106,25 +110,35 @@ $( document ).ready(function() {
 
   $('.next').on('click',function(){
     moveDC1();
-    moveDC2();
-    moveDC3();
+    setTimeout(moveDC2,1000);
+    setTimeout(moveDC3,2000);
+    $('.playerContainer.player2').slideDown(300);
+    $('.playerContainer.player1').slideDown(300);
     $('.playerContainer.player2').hide(2000, function(){
       $('.playerContainer.player1').hide(2000, function(){
-        $('.playerContainer.hide').hide(500, function(){
-              $('#cardA').attr('src',dealerCard1.image);
-              $('#cardB').attr('src',dealerCard2.image);
-              $('#cardC').attr('src',dealerCard3.image);
-              $('#cardP1C1').attr('src',player1Card1.image);
-              $('#cardP1C1').css('opacity',1);
-              $('#cardP1C2').attr('src',player1Card2.image);
-              $('#cardP1C2').css('opacity',1);
-              $('#cardP2C1').attr('src',player2Card1.image);
-              $('#cardP2C1').css('opacity',1);
-              $('#cardP2C2').attr('src',player2Card2.image);
-              $('#cardP2C2').css('opacity',1);
-        });
+        $('.playerContainer.hide').hide(200, flopDelay);
       });
     });
+
+
+    var flopDelay = function(){
+      setTimeout(displayFlop,500);
+    };
+
+    var displayFlop = function(){
+      $('#cardA').attr('src',dealerCard1.image);
+      $('#cardB').attr('src',dealerCard2.image);
+      $('#cardC').attr('src',dealerCard3.image);
+      $('#cardP1C1').attr('src',player1Card1.image);
+      $('#cardP1C1').css('opacity',1);
+      $('#cardP1C2').attr('src',player1Card2.image);
+      $('#cardP1C2').css('opacity',1);
+      $('#cardP2C1').attr('src',player2Card1.image);
+      $('#cardP2C1').css('opacity',1);
+      $('#cardP2C2').attr('src',player2Card2.image);
+      $('#cardP2C2').css('opacity',1);
+    };
+
 
         var player1hand = [dealerCard1.value, dealerCard2.value, dealerCard3.value, player1Card1.value, player1Card2.value];
         player1hand = player1hand.sort(function(a, b){return a-b;});
@@ -268,6 +282,7 @@ $( document ).ready(function() {
       }else{
         $('#card').attr('src',dealerCard4.image);
         $('#cardD').hide();
+        callCount = 0;
         clearInterval(card4move);
       }
 
@@ -310,6 +325,7 @@ $('#card').on('click',addMove4);
       }else{
         $('#card1').attr('src',dealerCard5.image);
         $('#cardE').hide();
+        callCount = 0;
         clearInterval(card5move);
       }
     },15);
@@ -372,7 +388,17 @@ $('#p2raise').on('click',raisep2);
     $('.p2bet').text('$'+player2Bet);
     $('.p2total').text('$'+player2Total);
 
+    //hide player containers
+    $('.playerContainer.active').removeClass('active');
+    $('.playerContainer.player2').addClass('active');
+    $(".playerTab.highlight").removeClass('highlight');
+    $(".playerHide").addClass('highlight');
+    $('.playerContainer.player2').slideUp(500);
+    $('.playerContainer.player1').slideUp(500);
+    callCount = 0;
+    currentRound = 0;
   };
+
 $('#p1fold').on('click',foldp1);
 
 //Player 2 fold   ********************************
@@ -388,13 +414,24 @@ $('#p1fold').on('click',foldp1);
     $('.p1bet').text('$'+player1Bet);
     $('.p1total').text('$'+player1Total);
 
+    //hide player containers
+    $('.playerContainer.active').removeClass('active');
+    $('.playerContainer.player2').addClass('active');
+    $(".playerTab.highlight").removeClass('highlight');
+    $(".playerHide").addClass('highlight');
+    $('.playerContainer.player2').slideUp(500);
+    $('.playerContainer.player1').slideUp(500);
+    callCount = 0;
+    currentRound = 1;
+
   };
+
 $('#p2fold').on('click',foldp2);
 
 //Player 1 Call   ********************************
   var callp1 = function(){
 
-    if (player1Bet === player2Bet || player1Bet > player2Bet){
+    if (player1Bet > player2Bet){
       return null;
     } else {
       var oldP1Bet = player1Bet;
@@ -405,7 +442,33 @@ $('#p2fold').on('click',foldp2);
       $('.p1total').text('$'+player1Total);
       $('.p2bet').text('$'+player2Bet);
       $('.p2total').text('$'+player2Total);
+      callCount++;
     }
+
+    if(player1Bet === player2Bet && callCount > 0 && currentRound === 1){
+      setTimeout(addMove4,3000);
+      $('.playerContainer.active').removeClass('active');
+      $('.playerContainer.player2').addClass('active');
+      $(".playerTab.highlight").removeClass('highlight');
+      $(".playerHide").addClass('highlight');
+      $('.playerContainer.player2').slideUp(500);
+      $('.playerContainer.player1').slideUp(500);
+      callCount = 0;
+      currentRound++;
+    }
+
+    if(player1Bet === player2Bet && callCount > 0 && currentRound === 2){
+      setTimeout(addMove5,3000);
+      $('.playerContainer.active').removeClass('active');
+      $('.playerContainer.player2').addClass('active');
+      $(".playerTab.highlight").removeClass('highlight');
+      $(".playerHide").addClass('highlight');
+      $('.playerContainer.player2').slideUp(500);
+      $('.playerContainer.player1').slideUp(500);
+      callCount = 0;
+      currentRound++;
+    }
+
   };
 
 $('#p1call').on('click',callp1);
@@ -413,7 +476,7 @@ $('#p1call').on('click',callp1);
 //Player 2 Call   ********************************
   var callp2 = function(){
 
-    if (player2Bet === player1Bet || player2Bet > player1Bet){
+    if (player2Bet > player1Bet){
       return null;
     } else {
       var oldP2Bet = player2Bet;
@@ -424,7 +487,33 @@ $('#p1call').on('click',callp1);
       $('.p1total').text('$'+player1Total);
       $('.p2bet').text('$'+player2Bet);
       $('.p2total').text('$'+player2Total);
+      callCount++;
     }
+
+    if(player1Bet === player2Bet && callCount > 0 && currentRound === 1){
+      setTimeout(addMove4,3000);
+      $('.playerContainer.active').removeClass('active');
+      $('.playerContainer.player2').addClass('active');
+      $(".playerTab.highlight").removeClass('highlight');
+      $(".playerHide").addClass('highlight');
+      $('.playerContainer.player2').slideUp(500);
+      $('.playerContainer.player1').slideUp(500);
+      callCount = 0;
+      currentRound++;
+    }
+
+    if(player1Bet === player2Bet && callCount > 0 && currentRound === 2){
+      setTimeout(addMove5,3000);
+      $('.playerContainer.active').removeClass('active');
+      $('.playerContainer.player2').addClass('active');
+      $(".playerTab.highlight").removeClass('highlight');
+      $(".playerHide").addClass('highlight');
+      $('.playerContainer.player2').slideUp(500);
+      $('.playerContainer.player1').slideUp(500);
+      callCount = 0;
+      currentRound++;
+    }
+
   };
 
 $('#p2call').on('click',callp2);

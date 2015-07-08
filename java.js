@@ -622,6 +622,7 @@ var p1flush;
 var p2flush;
 var p1Final;
 var p2Final;
+var winner;
 
 var winna = function() {
 // player1hand = [1,2,3,4,5,8,11];
@@ -822,6 +823,99 @@ for (i = p1StraightCheck.length-1; i > 0; i-=1){
 
   console.log(p1BestHand);
   console.log(p2BestHand);
+
+var sfWinner = function(x,y,p){
+  if(x === "straightFlush" && z === "quads" || x === "straightFlush" && y === "fullhouse" || x === "straightFlush" && y === "fullhouse" || x === "straightFlush" && y === "flush" || x === "straightFlush" && y === "straight" || x === "straightFlush" && y === "triple" || x === "straightFlush" && y === "twopair" || x === "straightFlush" && y === "pair" || x === "straightFlush" && y === null){
+      winner = p;
+  }
+};
+  sfWinner(p1BestHand,p2BestHand,"player1");
+  sfWinner(p2BestHand,p1BestHand,"player2");
+
+var fourWinner = function(x,y,p){
+  if(x === "quads" && y === "fullhouse" || x === "quads" && y === "fullhouse" || x === "quads" && y === "flush" || x === "quads" && y === "straight" || x === "quads" && y === "triple" || x === "quads" && y === "twopair" || x === "quads" && y === "pair" || x === "quads" && y === null){
+      winner = p;
+  }
+  };
+
+  fourWinner(p1BestHand,p2BestHand,"player1");
+  fourWinner(p2BestHand,p1BestHand,"player2");
+
+var fhWinner = function(x,y,p){
+    if(x === "fullhouse" && y === "flush" || x === "fullhouse" && y === "straight" || x === "fullhouse" && y === "triple" || x === "fullhouse" && y === "twopair" || x === "fullhouse" && y === "pair" || x === "fullhouse" && y === null){
+        winner = p;
+    }
+    };
+
+  fhWinner(p1BestHand,p2BestHand,"player1");
+  fhWinner(p2BestHand,p1BestHand,"player2");
+
+var flushWinner = function(x,y,p){
+    if(x === "flush" && y === "straight" || x === "flush" && y === "triple" || x === "flush" && y === "twopair" || x === "flush" && y === "pair" || x === "flush" && y === null){
+          winner = p;
+    }
+    };
+
+  flushWinner(p1BestHand,p2BestHand,"player1");
+  flushWinner(p2BestHand,p1BestHand,"player2");
+
+var straightWinner = function(x,y,p){
+    if(x === "straight" && y === "triple" || x === "straight" && y === "twopair" || x === "straight" && y === "pair" || x === "straight" && y === null){
+          winner = p;
+    }
+    };
+
+    straightWinner(p1BestHand,p2BestHand,"player1");
+    straightWinner(p2BestHand,p1BestHand,"player2");
+
+var tripleWinner = function(x,y,p){
+    if( x === "triple" && y === "twopair" || x === "triple" && y === "pair" || x === "triple" && y === null){
+            winner = p;
+      }
+      };
+
+  tripleWinner(p1BestHand,p2BestHand,"player1");
+  tripleWinner(p2BestHand,p1BestHand,"player2");
+
+var twoPairWinner = function(x,y,p){
+    if( x === "twopair" && y === "pair" || x === "twopair" && y === null){
+            winner = p;
+      }
+      };
+
+  twoPairWinner(p1BestHand,p2BestHand,"player1");
+  twoPairWinner(p2BestHand,p1BestHand,"player2");
+
+var pairWinner = function(x,y,p){
+    if( x === "pair" && y === null){
+              winner = p;
+      }
+      };
+
+  pairWinner(p1BestHand,p2BestHand,"player1");
+  pairWinner(p2BestHand,p1BestHand,"player2");
+
+var singleTieBreaker = function(x,y,j,l,p){
+if(j === l){
+  if(j === null){
+    if(x[x.length-1] > y[y.length-1]){
+      winner = p;
+    }else if(x[x.length-2] > y[y.length-2]){
+      winner = p;
+    }else if(x[x.length-3] > y[y.length-3]){
+      winner = p;
+    }else if(x[x.length-4] > y[y.length-4]){
+      winner = p;
+    }else if(x[x.length-5] > y[y.length-5]){
+      winner = p;
+    }
+  }
+}
+};
+
+  singleTieBreaker(player1hand,player2hand,p1BestHand,p2BestHand,"player1");
+
+    console.log("Winner was "+winner);
   if(p1flush===true){console.log("p1 flush");}
   if(p2flush===true){console.log("p2 flush");}
 };

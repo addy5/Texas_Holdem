@@ -12,10 +12,10 @@
     }
   };
 
-  var player1Total = 195;
-  var player2Total = 190;
-  var player1Bet = 5;
-  var player2Bet = 10;
+  var player1Total = 200;
+  var player2Total = 200;
+  var player1Bet = 0;
+  var player2Bet = 0;
 
   //callCount must be > 1 in a round to proceed
   var player2Moved = false;
@@ -125,6 +125,15 @@ $( document ).ready(function() {
     console.log("P2 Hand: "+player2hand + " "+player2suites);
 
   $('.next').on('click',function(){
+    player1Total -= 5;
+    player2Total -= 10;
+    player1Bet += 5;
+    player2Bet += 10;
+    $('.p1bet').text('$'+player1Bet);
+    $('.p1total').text('$'+player1Total);
+    $('.p2bet').text('$'+player2Bet);
+    $('.p2total').text('$'+player2Total);
+
     moveDC1();
     setTimeout(moveDC2,1000);
     setTimeout(moveDC3,2000);
@@ -155,6 +164,15 @@ $( document ).ready(function() {
       $('#cardP2C2').css('opacity',1);
     };
 
+//done raising button *********************
+$('.done').on('click', function(){
+  // $('.playerContainer.active').removeClass('active');
+  // $('.playerContainer.player2').addClass('active');
+  $(".playerTab.highlight").removeClass('highlight');
+  $(".playerHide").addClass('highlight');
+  $('.playerContainer.player2').slideUp(500);
+  $('.playerContainer.player1').slideUp(500);
+});
 
   });
 
@@ -258,7 +276,7 @@ $( document ).ready(function() {
 //clear both tabs when selected  *************************
   $(".playerHide").on('click',function(){
     $('.playerContainer.active').removeClass('active');
-    $('.playerContainer.player2').addClass('active');
+    $('.playerContainer.hide').addClass('active');
     $(".playerTab.highlight").removeClass('highlight');
     $(".playerHide").addClass('highlight');
     $('.playerContainer.player2').slideUp(500);
@@ -393,7 +411,7 @@ $('#p2raise').on('click',raisep2);
 
     //hide player containers
     $('.playerContainer.active').removeClass('active');
-    $('.playerContainer.player2').addClass('active');
+    $('.playerContainer.hide').addClass('active');
     $(".playerTab.highlight").removeClass('highlight');
     $(".playerHide").addClass('highlight');
     $('.playerContainer.player2').slideUp(500);
@@ -418,7 +436,7 @@ $('#p1fold').on('click',foldp1);
 
     //hide player containers
     $('.playerContainer.active').removeClass('active');
-    $('.playerContainer.player2').addClass('active');
+    $('.playerContainer.hide').addClass('active');
     $(".playerTab.highlight").removeClass('highlight');
     $(".playerHide").addClass('highlight');
     $('.playerContainer.player2').slideUp(500);
@@ -444,18 +462,39 @@ $('#p2fold').on('click',foldp2);
       $('.p1total').text('$'+player1Total);
       $('.p2bet').text('$'+player2Bet);
       $('.p2total').text('$'+player2Total);
+
+    }
+
+    if(player1Bet === player2Bet && currentRound === 1 && player2Moved === false){
       $('.playerContainer.active').removeClass('active');
-      $('.playerContainer.player2').addClass('active');
+      $('.playerContainer.hide').addClass('active');
       $(".playerTab.highlight").removeClass('highlight');
       $(".playerHide").addClass('highlight');
       $('.playerContainer.player2').slideUp(500);
       $('.playerContainer.player1').slideUp(500);
+
     }
 
     if(player1Bet === player2Bet && currentRound === 1 && player2Moved === true){
-      setTimeout(addMove4,3000);
+      setTimeout(addMove4,2000);
       $('.playerContainer.active').removeClass('active');
-      $('.playerContainer.player2').addClass('active');
+      $('.playerContainer.hide').addClass('active');
+      $(".playerTab.highlight").removeClass('highlight');
+      $(".playerHide").addClass('highlight');
+      $('.playerContainer.player2').slideUp(500);
+      $('.playerContainer.player1').slideUp(500);
+      // $('.playerContainer.active').removeClass('active');
+      // $('.playerContainer.player2').addClass('active');
+      // $(".playerTab.highlight").removeClass('highlight');
+      // $(".playerHide").addClass('highlight');
+      // $('.playerContainer.player2').slideUp(500);
+      // $('.playerContainer.player1').slideUp(500);
+
+    }
+
+    if(player1Bet === player2Bet && currentRound === 2 && player2Moved === false){
+      $('.playerContainer.active').removeClass('active');
+      $('.playerContainer.hide').addClass('active');
       $(".playerTab.highlight").removeClass('highlight');
       $(".playerHide").addClass('highlight');
       $('.playerContainer.player2').slideUp(500);
@@ -464,14 +503,43 @@ $('#p2fold').on('click',foldp2);
     }
 
     if(player1Bet === player2Bet && currentRound === 2 && player2Moved === true){
-      setTimeout(addMove5,3000);
+      setTimeout(addMove5,2000);
       $('.playerContainer.active').removeClass('active');
-      $('.playerContainer.player2').addClass('active');
+      $('.playerContainer.hide').addClass('active');
       $(".playerTab.highlight").removeClass('highlight');
       $(".playerHide").addClass('highlight');
       $('.playerContainer.player2').slideUp(500);
       $('.playerContainer.player1').slideUp(500);
 
+    }
+
+    if(player1Bet === player2Bet && currentRound === 3 && player2Moved === false){
+      $('.playerContainer.active').removeClass('active');
+      $('.playerContainer.hide').addClass('active');
+      $(".playerTab.highlight").removeClass('highlight');
+      $(".playerHide").addClass('highlight');
+      $('.playerContainer.player2').slideUp(500);
+      $('.playerContainer.player1').slideUp(500);
+
+    }
+
+    if(player1Bet === player2Bet && currentRound === 3 && player2Moved === true){
+      // $('.playerContainer.active').removeClass('active');
+      // $('.playerContainer.player2').addClass('active');
+      // $(".playerTab.highlight").removeClass('highlight');
+      // $(".playerHide").addClass('highlight');
+      // $('.playerContainer.player2').slideUp(10);
+      // $('.playerContainer.player1').slideUp(10);
+      winna();
+
+      $('.playerContainer.active').removeClass('active');
+      $('.playerContainer.hide').addClass('active');
+      $(".playerTab.highlight").removeClass('highlight');
+      $(".playerHide").addClass('highlight');
+      $('.playerContainer.hide').fadeIn(1000);
+      // $('.playerContainer.player2').fadeIn(1000);
+      $('.playerContainer.player1').fadeIn(1000);
+      $('.playerContainer.player2').fadeIn(1000);
     }
 
   };
@@ -497,9 +565,9 @@ $('#p1call').on('click',callp1);
     }
 
     if(player1Bet === player2Bet && currentRound === 1){
-      setTimeout(addMove4,3000);
+      setTimeout(addMove4,2000);
       $('.playerContainer.active').removeClass('active');
-      $('.playerContainer.player2').addClass('active');
+      $('.playerContainer.hide').addClass('active');
       $(".playerTab.highlight").removeClass('highlight');
       $(".playerHide").addClass('highlight');
       $('.playerContainer.player2').slideUp(500);
@@ -509,9 +577,9 @@ $('#p1call').on('click',callp1);
     }
 
     if(player1Bet === player2Bet && currentRound === 2){
-      setTimeout(addMove5,3000);
+      setTimeout(addMove5,2000);
       $('.playerContainer.active').removeClass('active');
-      $('.playerContainer.player2').addClass('active');
+      $('.playerContainer.hide').addClass('active');
       $(".playerTab.highlight").removeClass('highlight');
       $(".playerHide").addClass('highlight');
       $('.playerContainer.player2').slideUp(500);
@@ -521,18 +589,18 @@ $('#p1call').on('click',callp1);
 
     if(player1Bet === player2Bet && currentRound === 3){
       $('.playerContainer.active').removeClass('active');
-      $('.playerContainer.player2').addClass('active');
-      $(".playerTab.highlight").removeClass('highlight');
-      $(".playerHide").addClass('highlight');
-      $('.playerContainer.player2').slideUp(500);
-      $('.playerContainer.player1').slideUp(500);
+      // $('.playerContainer.player2').addClass('active');
+      // $(".playerTab.highlight").removeClass('highlight');
+      // $(".playerHide").addClass('highlight');
+      // $('.playerContainer.player2').slideUp(10);
+      // $('.playerContainer.player1').slideUp(10);
       winna();
 
-      $('.playerContainer.player1').addClass('active');
-      $('.playerContainer.player2').addClass('active');
+      $('.playerContainer.hide').addClass('active');
+      $('.playerContainer.hide').fadeIn(1000);
       $(".playerTab.highlight").removeClass('highlight');
       $(".playerHide").addClass('highlight');
-      $('.playerContainer.player2').fadeIn(1000);
+      // $('.playerContainer.player2').fadeIn(1000);
       $('.playerContainer.player1').fadeIn(1000);
     }
 
@@ -544,107 +612,220 @@ $('#p2call').on('click',callp2);
 // winner evaluation *************************************
 
 // //testing hands:
-// player1hand = [1,2,2,5,9,9,9];
+
 // // player1suites = ["c","c","c","c","c","s","s"];
-// player2hand = [2,3,4,4,11,11,12];
+
 
 var p1BestHand;
 var p2BestHand;
+var p1flush;
+var p2flush;
+var p1Final;
+var p2Final;
 
 var winna = function() {
+// player1hand = [1,2,3,4,5,8,11];
+// player2hand = [2,3,4,4,5,13,13];
+
+
+// evaluate highest single card
+  p1BestHand = null;
+  p2BestHand = null;
+
+
+//splice hand to check for pairs evaluation
+  var p1pairsCheck = [];
+
+  for(i = 0; i < player1hand.length; i++){
+    p1pairsCheck[i] = player1hand[i];
+  }
+
+  var p1pairs = false;
+  for (i = p1pairsCheck.length-1; i > 1; i-=1){
+    if(p1pairsCheck[i] === p1pairsCheck[i-1] && p1pairs === false){
+    p1BestHand = "pair";
+    p1pairs = true;
+    p1pairsCheck.splice(i,1);
+    p1pairsCheck.splice(i-1,1);
+
+    //check for pair after pair
+    for (i = p1pairsCheck.length; i > 0; i-=1){
+      if(p1pairsCheck[i] === p1pairsCheck[i-1]){
+      p1BestHand = "twopair";
+      }
+    }
+    }
+  }
+
+  //splice hand to check for pairs evaluation
+    var p2pairsCheck = [];
+
+    for(i = 0; i < player2hand.length; i++){
+      p2pairsCheck[i] = player2hand[i];
+    }
+  var p2pairs = false;
+  for (i = p2pairsCheck.length-1; i > 1; i-=1){
+    if(p2pairsCheck[i] === p2pairsCheck[i-1] && p2pairs === false){
+    p2BestHand = "pair";
+    p2pairs = true;
+    p2pairsCheck.splice(i,1);
+    p2pairsCheck.splice(i-1,1);
+
+    //check for pair after pair
+    for (i = p2pairsCheck.length; i > 0; i-=1){
+      if(p2pairsCheck[i] === p2pairsCheck[i-1]){
+      p2BestHand = "twopair";
+      }
+    }
+    }
+  }
+
+//splice hand to remove pairs for straight evaluation
+var p1StraightCheck = [];
+
+for(i = 0; i < player1hand.length; i++){
+  p1StraightCheck[i] = player1hand[i];
+}
+
+for (i = p1StraightCheck.length-1; i > 0; i-=1){
+  if(p1StraightCheck[i] === p1StraightCheck[i-1]){
+    p1StraightCheck.splice(i,1);
+  }
+}
+
+  for (i = p1StraightCheck.length-1; i > 3; i-=1){
+    if(p1StraightCheck[i-1] === p1StraightCheck[i]-1 && p1StraightCheck[i-2] === p1StraightCheck[i]-2 && p1StraightCheck[i-3] === p1StraightCheck[i]-3  && p1StraightCheck[i-4] === p1StraightCheck[i]-4){
+      p1BestHand = "straight";
+    }
+  }
+//*****************************************************
+
+//splice hand to remove pairs for straight evaluation
+  var p2StraightCheck = [];
+
+  for(i = 0; i < player2hand.length; i++){
+    p2StraightCheck[i] = player2hand[i];
+  }
+
+  for (i = p2StraightCheck.length-1; i > 0; i-=1){
+    if(p2StraightCheck[i] === p2StraightCheck[i-1]){
+      p2StraightCheck.splice(i,1);
+    }
+  }
+
+  for (i = p2StraightCheck.length-1; i > 3; i-=1){
+    if(p2StraightCheck[i-1] === p2StraightCheck[i]-1 && p2StraightCheck[i-2] === p2StraightCheck[i]-2 && p2StraightCheck[i-3] === p2StraightCheck[i]-3  && p2StraightCheck[i-4] === p2StraightCheck[i]-4){
+      p2BestHand = "straight";
+    }
+  }
+
+//*****************************************************
+
+//check for flush evaluations
   for (i = 6; i > 3; i-=1){
     if(player1suites[i] === player1suites[i-1] && player1suites[i] === player1suites[i-2] && player1suites[i] === player1suites[i-3]  && player1suites[i] === player1suites[i-4]){
-      p1BestHand = "flush";
-    console.log('flush player 1 alert');
+      p1flush = true;
     }
   }
 
   for (i = 6; i > 3; i-=1){
     if(player2suites[i] === player2suites[i-1] && player2suites[i] === player2suites[i-2] && player2suites[i] === player2suites[i-3]  && player2suites[i] === player2suites[i-4]){
-      p2BestHand = "flush";
-    console.log('flush player 2 alert');
+      p2flush = true;
+    }
+  }
+//**************************************************************
+
+//splice hand to remove pairs for FH / triple evaluation
+    var p1FHCheck = [];
+
+    for(i = 0; i < player1hand.length; i++){
+      p1FHCheck[i] = player1hand[i];
+    }
+
+  var p1trio = false;
+  for (i = p1FHCheck.length-1; i > 1; i-=1){
+    if(p1FHCheck[i] === p1FHCheck[i-1] && p1FHCheck[i] === p1FHCheck[i-2] && p1trio === false){
+      if(p1BestHand ==="straight" && p1flush === true){
+        p1BestHand = "straightFlush";
+      } else{
+      p1BestHand = "triple";}
+    p1trio = true;
+    p1FHCheck.splice(i,1);
+    p1FHCheck.splice(i-1,1);
+    p1FHCheck.splice(i-2,1);
+
+    //check for pair after trio
+    for (i = p1FHCheck.length-1; i > 0; i-=1){
+      if(p1FHCheck[i] === p1FHCheck[i-1]){
+      if(p1BestHand ==="straight" && p1flush === true){
+        p1BestHand = "straightFlush";
+      } else{
+      p1BestHand = "fullhouse";}
+      }
+    }
+
     }
   }
 
-  for (i = 6; i > 3; i-=1){
-    if(player1hand[i-1] === player1hand[i]-1 && player1hand[i-2] === player1hand[i]-2 && player1hand[i-3] === player1hand[i]-3  && player1hand[i-4] === player1hand[i]-4){
-      p1BestHand = "straight";
-    console.log('straight player 1 alert');
-    }
-  }
+  //splice hand to remove pairs for FH / triple evaluation
+    var p2FHCheck = [];
 
-  for (i = 6; i > 3; i-=1){
-    if(player2hand[i-1] === player2hand[i]-1 && player2hand[i-2] === player2hand[i]-2 && player2hand[i-3] === player2hand[i]-3  && player2hand[i-4] === player2hand[i]-4){
-      p2BestHand = "straight";
-    console.log('straight player 2 alert');
+    for(i = 0; i < player2hand.length; i++){
+      p2FHCheck[i] = player2hand[i];
     }
-  }
 
-  for (i = 6; i > 2; i-=1){
+  var p2trio = false;
+  for (i = p2FHCheck.length-1; i > 1; i-=1){
+    if(p2FHCheck[i] === p2FHCheck[i-1] && p2FHCheck[i] === p2FHCheck[i-2] && p2trio === false){
+      if(p2BestHand ==="straight" && p2flush === true){
+        p2BestHand = "straightFlush";
+      } else{
+      p2BestHand = "triple";}
+    p2trio = true;
+    p2FHCheck.splice(i,1);
+    p2FHCheck.splice(i-1,1);
+    p2FHCheck.splice(i-2,1);
+
+
+    //check for pair after trio
+    for (i = p2FHCheck.length-1; i > 0; i-=1){
+      if(p2FHCheck[i] === p2FHCheck[i-1]){
+        if(p2BestHand ==="straight" && p2flush === true){
+          p2BestHand = "straightFlush";
+        } else{
+        p2BestHand = "fullhouse";}
+        }
+      }
+    }
+
+    }
+//*******************************************************
+
+//****check for 4 of a kind **********************************
+  for (i = player1hand.length-1; i > 2; i-=1){
     if(player1hand[i] === player1hand[i-1] && player1hand[i] === player1hand[i-2] && player1hand[i] === player1hand[i-3]){
     p1BestHand = "quads";
-    console.log('4 ofa kind player 1 alert');
     }
   }
 
-  for (i = 6; i > 2; i-=1){
+
+  for (i = player2hand.length-1; i > 2; i-=1){
     if(player2hand[i] === player2hand[i-1] && player2hand[i] === player2hand[i-2] && player2hand[i] === player2hand[i-3]){
     p2BestHand = "quads";
-    console.log('4 ofa kind player 2 alert');
-    }
-  }
-
-//check for triple or fullhouse
-  var p2FH = false;
-  for (i = 6; i > 1; i-=1){
-    if(player2hand[i] === player2hand[i-1] && player2hand[i] === player2hand[i-2] && p2FH === false){
-    p2BestHand = "triple";
-    console.log('3 ofa kind player 2 alert');
-    p2trio = true;
-    var player2handTrio = player2hand;
-    player2handTrio.splice(i,1);
-    player2handTrio.splice(i-1,1);
-    player2handTrio.splice(i-2,1);
-    console.log(player2handTrio);
-
-    //check for pair after trio
-    for (i = player2handTrio.length; i > 0; i-=1){
-      if(player2handTrio[i] === player2handTrio[i-1]){
-      p2BestHand = "fullhouse";
-      console.log('fullhouse player 2 alert');
-      }
-    }
-
-
-    }
-  }
-
-  var p1FH = false;
-  for (i = 6; i > 1; i-=1){
-    if(player1hand[i] === player1hand[i-1] && player1hand[i] === player1hand[i-2] && p1FH === false){
-    p1BestHand = "triple";
-    console.log('3 ofa kind player 1 alert');
-    p1trio = true;
-    var player1handTrio = player1hand;
-    player1handTrio.splice(i,1);
-    player1handTrio.splice(i-1,1);
-    player1handTrio.splice(i-2,1);
-    console.log(player1handTrio);
-
-    //check for pair after trio
-    for (i = player1handTrio.length; i > 0; i-=1){
-      if(player1handTrio[i] === player1handTrio[i-1]){
-      p1BestHand = "fullhouse";
-      console.log('fullhouse kind player 1 alert');
-      }
-    }
     }
   }
 
 
+  if(p1BestHand === null){ p1Final = [player1hand[player1hand.length-1],player1hand[player1hand.length-2],player1hand[player1hand.length-3],player1hand[player1hand.length-4],player1hand[player1hand.length-5]];}
 
+  if(p2BestHand === null){ p2Final = [player2hand[player2hand.length-1],player2hand[player2hand.length-2],player2hand[player2hand.length-3],player2hand[player2hand.length-4],player2hand[player2hand.length-5]];}
+
+  console.log(p1BestHand);
+  console.log(p2BestHand);
+  if(p1flush===true){console.log("p1 flush");}
+  if(p2flush===true){console.log("p2 flush");}
 };
 
-winna();
+
 
 });

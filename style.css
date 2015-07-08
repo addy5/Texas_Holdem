@@ -5,7 +5,7 @@ body{
 }
 
 #container{
-  width:1100px;
+  width:1200px;
   margin: 0 auto;
   /*border: 1px dotted grey;*/
 
@@ -105,7 +105,7 @@ button.next{
 }
 
 #rightSide{
-  width:850px;
+  width:980px;
   height:550px;
   /*border: 2px solid grey;*/
   position: relative;
@@ -246,7 +246,7 @@ button.next{
 }
 
 .playerContainer.hide{
-  width: 2px;
+  width: 100px;
   height: 220px;
   border: none;
   display: inline-block;
@@ -262,6 +262,7 @@ button.next{
   position: absolute;
   border-radius: 5px;
   vertical-align: top;
+  text-align: center;
 }
 
 .bCall{
@@ -271,8 +272,18 @@ button.next{
 
 .bRaise{
   top:80px;
-  right:15px;
+  right:59px;
+  width: 50px;
+  font-size: 12px;
 }
+
+.done{
+  top:80px;
+  right:15px;
+  width: 40px;
+  font-size: 10px;
+}
+
 
 .bFold{
   top:130px;

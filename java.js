@@ -398,11 +398,9 @@ $('#p2raise').on('click',raisep2);
 
 //Player 1 fold   ********************************
   var foldp1 = function(){
-    var oldP2Bet = player2Bet;
-    player2Bet = 10;
-    player2Total = player2Total + player1Bet + oldP2Bet - player2Bet;
-    player1Bet = 5;
-    player1Total = player1Total - player1Bet;
+    player2Total = player2Total + player1Bet + player2Bet;
+    player2Bet = 0;
+    player1Bet = 0;
     $('.p1bet').text('$'+player1Bet);
     $('.p1total').text('$'+player1Total);
 
@@ -423,11 +421,9 @@ $('#p1fold').on('click',foldp1);
 
 //Player 2 fold   ********************************
   var foldp2 = function(){
-    var oldP1Bet = player1Bet;
-    player1Bet = 5;
-    player1Total = player1Total + player2Bet + oldP1Bet - player1Bet;
-    player2Bet = 10;
-    player2Total = player2Total - player2Bet;
+    player1Total = player1Total + player2Bet + player1Bet;
+    player1Bet = 0;
+    player2Bet = 0;
     $('.p2bet').text('$'+player2Bet);
     $('.p2total').text('$'+player2Total);
 
@@ -611,30 +607,26 @@ $('#p2call').on('click',callp2);
 
 // winner evaluation *************************************
 
-// //testing hands:
-
-// // player1suites = ["c","c","c","c","c","s","s"];
-
-
 var p1BestHand;
 var p2BestHand;
 var p1flush;
 var p2flush;
-var p1Final;
-var p2Final;
+var p1final;
+var p2final;
 var winner;
 
 var winna = function() {
-// player1hand = [1,2,3,4,5,8,11];
-// player2hand = [2,3,4,4,5,13,13];
-
+// //testing hands:
+player1hand = [1,2,12,14,14,14,14];
+player2hand = [2,3,8,14,14,14,14];
+// // player1suites = ["c","c","c","c","c","s","s"];
 
 // evaluate highest single card
   p1BestHand = null;
   p2BestHand = null;
 
 
-//splice hand to check for pairs evaluation
+//splice hand to check for pairs
   var p1pairsCheck = [];
 
   for(i = 0; i < player1hand.length; i++){
@@ -642,40 +634,52 @@ var winna = function() {
   }
 
   var p1pairs = false;
-  for (i = p1pairsCheck.length-1; i > 1; i-=1){
+  for (i = p1pairsCheck.length-1; i > 0; i-=1){
     if(p1pairsCheck[i] === p1pairsCheck[i-1] && p1pairs === false){
     p1BestHand = "pair";
     p1pairs = true;
+    p1duos = p1pairsCheck[i];
     p1pairsCheck.splice(i,1);
     p1pairsCheck.splice(i-1,1);
+    p1final = [p1pairsCheck[p1pairsCheck.length-3],p1pairsCheck[p1pairsCheck.length-2],p1pairsCheck[p1pairsCheck.length-1], p1duos,p1duos];
 
     //check for pair after pair
     for (i = p1pairsCheck.length; i > 0; i-=1){
       if(p1pairsCheck[i] === p1pairsCheck[i-1]){
       p1BestHand = "twopair";
+      p1duo = p1pairsCheck[i];
+      p1pairsCheck.splice(i,1);
+      p1pairsCheck.splice(i-1,1);
+      p1final = [p1pairsCheck[p1pairsCheck.length-1],p1duo,p1duo,p1duos,p1duos];
       }
     }
     }
   }
 
-  //splice hand to check for pairs evaluation
+  //splice hand to check for pairs
     var p2pairsCheck = [];
 
     for(i = 0; i < player2hand.length; i++){
       p2pairsCheck[i] = player2hand[i];
     }
   var p2pairs = false;
-  for (i = p2pairsCheck.length-1; i > 1; i-=1){
+  for (i = p2pairsCheck.length-1; i > 0; i-=1){
     if(p2pairsCheck[i] === p2pairsCheck[i-1] && p2pairs === false){
     p2BestHand = "pair";
     p2pairs = true;
+    p2duos = p2pairsCheck[i];
     p2pairsCheck.splice(i,1);
     p2pairsCheck.splice(i-1,1);
+    p2final = [p2pairsCheck[p2pairsCheck.length-3],p2pairsCheck[p2pairsCheck.length-2],p2pairsCheck[p2pairsCheck.length-1], p2duos,p2duos];
 
     //check for pair after pair
     for (i = p2pairsCheck.length; i > 0; i-=1){
       if(p2pairsCheck[i] === p2pairsCheck[i-1]){
       p2BestHand = "twopair";
+      p2duo = p2pairsCheck[i];
+      p2pairsCheck.splice(i,1);
+      p2pairsCheck.splice(i-1,1);
+      p2final = [p2pairsCheck[p2pairsCheck.length-1],p2duo,p2duo,p2duos,p2duos];
       }
     }
     }
@@ -723,15 +727,15 @@ for (i = p1StraightCheck.length-1; i > 0; i-=1){
 //*****************************************************
 
 //check for flush evaluations
-  for (i = 6; i > 3; i-=1){
+  for (i = player1suites.length-1; i > 3; i-=1){
     if(player1suites[i] === player1suites[i-1] && player1suites[i] === player1suites[i-2] && player1suites[i] === player1suites[i-3]  && player1suites[i] === player1suites[i-4]){
-      p1flush = true;
+      p1BestHand = "flush";
     }
   }
 
-  for (i = 6; i > 3; i-=1){
+  for (i = player2suites.length; i > 3; i-=1){
     if(player2suites[i] === player2suites[i-1] && player2suites[i] === player2suites[i-2] && player2suites[i] === player2suites[i-3]  && player2suites[i] === player2suites[i-4]){
-      p2flush = true;
+      p2BestHand = "flush";
     }
   }
 //**************************************************************
@@ -746,25 +750,23 @@ for (i = p1StraightCheck.length-1; i > 0; i-=1){
   var p1trio = false;
   for (i = p1FHCheck.length-1; i > 1; i-=1){
     if(p1FHCheck[i] === p1FHCheck[i-1] && p1FHCheck[i] === p1FHCheck[i-2] && p1trio === false){
-      if(p1BestHand ==="straight" && p1flush === true){
-        p1BestHand = "straightFlush";
-      } else{
-      p1BestHand = "triple";}
+
+    p1BestHand = "triple";
     p1trio = true;
+    p1tres = p1FHCheck[i];
     p1FHCheck.splice(i,1);
     p1FHCheck.splice(i-1,1);
     p1FHCheck.splice(i-2,1);
+    p1final = [p1FHCheck[p1FHCheck.length-3],p1FHCheck[p1FHCheck.length-2],p1FHCheck[p1FHCheck.length-1],p1tres,p1tres];
 
     //check for pair after trio
     for (i = p1FHCheck.length-1; i > 0; i-=1){
       if(p1FHCheck[i] === p1FHCheck[i-1]){
-      if(p1BestHand ==="straight" && p1flush === true){
-        p1BestHand = "straightFlush";
-      } else{
-      p1BestHand = "fullhouse";}
+
+      p1BestHand = "fullhouse";
+      p1final = [p1FHCheck[i],p1FHCheck[i],p1tres,p1tres,p1tres];
       }
     }
-
     }
   }
 
@@ -778,23 +780,20 @@ for (i = p1StraightCheck.length-1; i > 0; i-=1){
   var p2trio = false;
   for (i = p2FHCheck.length-1; i > 1; i-=1){
     if(p2FHCheck[i] === p2FHCheck[i-1] && p2FHCheck[i] === p2FHCheck[i-2] && p2trio === false){
-      if(p2BestHand ==="straight" && p2flush === true){
-        p2BestHand = "straightFlush";
-      } else{
-      p2BestHand = "triple";}
+
+    p2BestHand = "triple";
     p2trio = true;
+    p2tres = p2FHCheck[i];
     p2FHCheck.splice(i,1);
     p2FHCheck.splice(i-1,1);
     p2FHCheck.splice(i-2,1);
-
+    p2final = [p2FHCheck[p2FHCheck.length-2],p2FHCheck[p2FHCheck.length-1],p2tres,p2tres,p2tres];
 
     //check for pair after trio
     for (i = p2FHCheck.length-1; i > 0; i-=1){
       if(p2FHCheck[i] === p2FHCheck[i-1]){
-        if(p2BestHand ==="straight" && p2flush === true){
-          p2BestHand = "straightFlush";
-        } else{
-        p2BestHand = "fullhouse";}
+        p2BestHand = "fullhouse";
+        p2final = [p2FHCheck[i],p2FHCheck[i],p2tres,p2tres,p2tres];
         }
       }
     }
@@ -803,20 +802,68 @@ for (i = p1StraightCheck.length-1; i > 0; i-=1){
 //*******************************************************
 
 //****check for 4 of a kind **********************************
-  for (i = player1hand.length-1; i > 2; i-=1){
-    if(player1hand[i] === player1hand[i-1] && player1hand[i] === player1hand[i-2] && player1hand[i] === player1hand[i-3]){
+
+//evaluate highest possible 4-of-a0kind hand
+    var p1fourCheck = [];
+
+    for(i = 0; i < player1hand.length; i++){
+      p1fourCheck[i] = player1hand[i];
+    }
+
+  var p1four = false;
+  for (i = p1fourCheck.length-1; i > 2; i-=1){
+    if(p1fourCheck[i] === p1fourCheck[i-1] && p1fourCheck[i] === p1fourCheck[i-2] && p1fourCheck[i] === p1fourCheck[i-3] && p1four === false){
+
     p1BestHand = "quads";
+    p1four = true;
+    p1quatro = p1fourCheck[i];
+    p1fourCheck.splice(i,1);
+    p1fourCheck.splice(i-1,1);
+    p1fourCheck.splice(i-2,1);
+    p1fourCheck.splice(i-3,1);
+    p1final = [p1fourCheck[p1fourCheck.length-1],p1quatro,p1quatro,p1quatro,p1quatro];
+
     }
   }
 
+//evaluate highest possible 4-of-a0kind hand
+      var p2fourCheck = [];
 
-  for (i = player2hand.length-1; i > 2; i-=1){
-    if(player2hand[i] === player2hand[i-1] && player2hand[i] === player2hand[i-2] && player2hand[i] === player2hand[i-3]){
-    p2BestHand = "quads";
+      for(i = 0; i < player2hand.length; i++){
+        p2fourCheck[i] = player2hand[i];
+      }
+
+    var p2four = false;
+    for (i = p2fourCheck.length-1; i > 2; i-=1){
+      if(p2fourCheck[i] === p2fourCheck[i-1] && p2fourCheck[i] === p2fourCheck[i-2] && p2fourCheck[i] === p2fourCheck[i-3] && p2four === false){
+
+      p2BestHand = "quads";
+      p2four = true;
+      p2quatro = p2fourCheck[i];
+      p2fourCheck.splice(i,1);
+      p2fourCheck.splice(i-1,1);
+      p2fourCheck.splice(i-2,1);
+      p2fourCheck.splice(i-3,1);
+      p2final = [p2fourCheck[p1fourCheck.length-1],p2quatro,p2quatro,p2quatro,p2quatro];
+
+      }
     }
-  }
 
+  // for (i = player1hand.length-1; i > 2; i-=1){
+  //   if(player1hand[i] === player1hand[i-1] && player1hand[i] === player1hand[i-2] && player1hand[i] === player1hand[i-3]){
+  //   p1BestHand = "quads";
+  //   p1Final = [player1hand[player1hand.length-1],player1hand[i],player1hand[i-1],player1hand[i-2],player1hand[i-3]];
+  //   }
+  // }
+  //
+  //
+  // for (i = player2hand.length-1; i > 2; i-=1){
+  //   if(player2hand[i] === player2hand[i-1] && player2hand[i] === player2hand[i-2] && player2hand[i] === player2hand[i-3]){
+  //   p2BestHand = "quads";
+  //   }
+  // }
 
+//single hand calculation
   if(p1BestHand === null){ p1Final = [player1hand[player1hand.length-1],player1hand[player1hand.length-2],player1hand[player1hand.length-3],player1hand[player1hand.length-4],player1hand[player1hand.length-5]];}
 
   if(p2BestHand === null){ p2Final = [player2hand[player2hand.length-1],player2hand[player2hand.length-2],player2hand[player2hand.length-3],player2hand[player2hand.length-4],player2hand[player2hand.length-5]];}
@@ -896,30 +943,131 @@ var pairWinner = function(x,y,p){
   pairWinner(p2BestHand,p1BestHand,"player2");
 
 var singleTieBreaker = function(x,y,j,l,p){
-if(j === l){
-  if(j === null){
+if(j === l && j === null && l === null){
+console.log(x);
+console.log(y);
     if(x[x.length-1] > y[y.length-1]){
       winner = p;
+    }else if(x[x.length-1] < y[y.length-1]){
+      return null;
     }else if(x[x.length-2] > y[y.length-2]){
       winner = p;
+    }else if(x[x.length-2] < y[y.length-2]){
+      return null;
     }else if(x[x.length-3] > y[y.length-3]){
       winner = p;
+    }else if(x[x.length-3] < y[y.length-3]){
+      return null;
     }else if(x[x.length-4] > y[y.length-4]){
       winner = p;
+    }else if(x[x.length-4] < y[y.length-4]){
+      return null;
     }else if(x[x.length-5] > y[y.length-5]){
       winner = p;
+    }else if(x[x.length-5] < y[y.length-5]){
+      return null;
+    } else{
+      winner = "tie";
     }
-  }
+
 }
 };
 
   singleTieBreaker(player1hand,player2hand,p1BestHand,p2BestHand,"player1");
+  singleTieBreaker(player2hand,player1hand,p2BestHand,p1BestHand,"player2");
 
-    console.log("Winner was "+winner);
-  if(p1flush===true){console.log("p1 flush");}
-  if(p2flush===true){console.log("p2 flush");}
+// same hand evaluation *********************************
+var fourCompare = function(x,y,p){
+  if(x[x.length-1] > y[y.length-1]){
+    winner = p;
+  } else if(x[x.length-1] < y[y.length-1]){
+    return null;
+  } else if (x[x.length-5] > y[y.length-5]){
+      winner = p;
+    } else if(x[x.length-5] < y[y.length-5]){
+      return null;
+    } else{
+      winner = "tie";
+    }
+    console.log(p1final);
+    console.log(p2final);
+  };
+
+
+if(p1BestHand === p2BestHand && p1BestHand === "quads"){
+  fourCompare(p1final,p2final,"player1");
+  fourCompare(p2final,p1final,"player2");
+}
+//*********************************************************
+var fhCompare = function(x,y,p){
+  if(x[x.length-1] > y[y.length-1]){
+    winner = p;
+  } else if(x[x.length-1] < y[y.length-1]){
+    return null;
+  } else if(x[x.length-4] > y[y.length-4]){
+      winner = p;
+    } else if(x[x.length-4] < y[y.length-4]){
+      return null;
+    }else{
+      winner = "tie";
+    }
+
 };
 
+if(p1BestHand === p2BestHand && p1BestHand ==="fullhouse"){
+  fhCompare(p1final,p2final,"player1");
+  fhCompare(p2final,p1final,"player2");
+}
+
+//*********************************************************
+var twopairCompare = function(x,y,p){
+  if(x[x.length-1] > y[y.length-1]){
+    winner = p;
+  } else if(x[x.length-1] < y[y.length-1]){
+    return null;
+  }else if (x[x.length-3] > y[y.length-3]){
+      winner = p;
+    } else if(x[x.length-3] < y[y.length-3]){
+      return null;
+    } else if (x[x.length-5] > y[y.length-5]){
+        winner = p;
+      }else if(x[x.length-5] < y[y.length-5]){
+        return null;
+      } else{
+      winner = "tie";
+    }
+  };
+
+if(p1BestHand === p2BestHand && p1BestHand ==="twopair"){
+  twopairCompare(p1final,p2final,"player1");
+  twopairCompare(p2final,p1final,"player2");
+}
+//*********************************************************
+var pairCompare = function(x,y,p){
+  if(x[x.length-1] > y[y.length-1]){
+    winner = p;
+  } else if (x[x.length-3] > y[y.length-3]){
+      winner = p;
+    } else if (x[x.length-4] > y[y.length-4]){
+        winner = p;
+      } else if (x[x.length-5] > y[y.length-5]){
+          winner = p;
+        } else{
+      winner = "tie";
+    }
+  };
+
+if(p1BestHand === p2BestHand && p1BestHand ==="pair"){
+  pairCompare(p1final,p2final,"player1");
+  pairCompare(p2final,p1final,"player2");
+}
+//*********************************************************
+    console.log("Winner was "+winner);
+
+};
+
+
+winna();
 
 
 });

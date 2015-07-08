@@ -617,8 +617,8 @@ var winner;
 
 var winna = function() {
 // //testing hands:
-player1hand = [1,2,12,14,14,14,14];
-player2hand = [2,3,8,14,14,14,14];
+// player1hand = [1,2,3,12,14,14,14];
+// player2hand = [2,3,6,9,14,14,14];
 // // player1suites = ["c","c","c","c","c","s","s"];
 
 // evaluate highest single card
@@ -757,7 +757,7 @@ for (i = p1StraightCheck.length-1; i > 0; i-=1){
     p1FHCheck.splice(i,1);
     p1FHCheck.splice(i-1,1);
     p1FHCheck.splice(i-2,1);
-    p1final = [p1FHCheck[p1FHCheck.length-3],p1FHCheck[p1FHCheck.length-2],p1FHCheck[p1FHCheck.length-1],p1tres,p1tres];
+    p1final = [p1FHCheck[p1FHCheck.length-2],p1FHCheck[p1FHCheck.length-1],p1tres,p1tres,p1tres];
 
     //check for pair after trio
     for (i = p1FHCheck.length-1; i > 0; i-=1){
@@ -864,7 +864,7 @@ for (i = p1StraightCheck.length-1; i > 0; i-=1){
   // }
 
 //single hand calculation
-  if(p1BestHand === null){ p1Final = [player1hand[player1hand.length-1],player1hand[player1hand.length-2],player1hand[player1hand.length-3],player1hand[player1hand.length-4],player1hand[player1hand.length-5]];}
+  if(p1BestHand === null){ p1final = [player1hand[player1hand.length-1],player1hand[player1hand.length-2],player1hand[player1hand.length-3],player1hand[player1hand.length-4],player1hand[player1hand.length-5]];}
 
   if(p2BestHand === null){ p2Final = [player2hand[player2hand.length-1],player2hand[player2hand.length-2],player2hand[player2hand.length-3],player2hand[player2hand.length-4],player2hand[player2hand.length-5]];}
 
@@ -1020,6 +1020,29 @@ if(p1BestHand === p2BestHand && p1BestHand ==="fullhouse"){
 }
 
 //*********************************************************
+var tripleCompare = function(x,y,p){
+  if(x[x.length-1] > y[y.length-1]){
+    winner = p;
+    } else if(x[x.length-1] < y[y.length-1]){
+      return null;
+    } else if (x[x.length-4] > y[y.length-4]){
+        winner = p;
+    } else if (x[x.length-4] < y[y.length-4]){
+        return null;
+    }  else if (x[x.length-5] > y[y.length-5]){
+          winner = p;
+    } else if(x[x.length-5] < y[y.length-5]){
+        return null;
+      } else{
+      winner = "tie";
+    }
+  };
+
+if(p1BestHand === p2BestHand && p1BestHand ==="triple"){
+  tripleCompare(p1final,p2final,"player1");
+  tripleCompare(p2final,p1final,"player2");
+}
+//*********************************************************
 var twopairCompare = function(x,y,p){
   if(x[x.length-1] > y[y.length-1]){
     winner = p;
@@ -1046,13 +1069,21 @@ if(p1BestHand === p2BestHand && p1BestHand ==="twopair"){
 var pairCompare = function(x,y,p){
   if(x[x.length-1] > y[y.length-1]){
     winner = p;
+  }  else if(x[x.length-1] < y[y.length-1]){
+    return null;
   } else if (x[x.length-3] > y[y.length-3]){
       winner = p;
+    }  else if(x[x.length-3] < y[y.length-3]){
+      return null;
     } else if (x[x.length-4] > y[y.length-4]){
         winner = p;
+      }  else if(x[x.length-4] < y[y.length-4]){
+        return null;
       } else if (x[x.length-5] > y[y.length-5]){
           winner = p;
-        } else{
+        }  else if(x[x.length-5] < y[y.length-5]){
+          return null;
+        }else{
       winner = "tie";
     }
   };
@@ -1066,8 +1097,60 @@ if(p1BestHand === p2BestHand && p1BestHand ==="pair"){
 
 };
 
+//take p1 total cards   *********
+var p1suiteHand = [dealerCard1,dealerCard2,dealerCard3,dealerCard4,dealerCard5,player1Card1,player1Card2];
+//sort p1 total cards by suite  *********
+p1suiteHand.sort(function(a, b){
+    if(a.suite < b.suite) return -1;
+    if(a.suite > b.suite) return 1;
+    return 0;
+});
 
-winna();
+//check for p1 flush and store winning suite  *********
+var p1flushSuit="";
+
+for (i = p1suiteHand.length-1; i > 3 ; i-=1){
+  if(p1suiteHand[i].suite === p1suiteHand[i-1].suite && p1suiteHand[i].suite === p1suiteHand[i-2].suite && p1suiteHand[i].suite === p1suiteHand[i-3].suite && p1suiteHand[i].suite === p1suiteHand[i-4].suite){
+    console.log("flush");
+    p1BestHand = "flush";
+    p1flushSuit = p1suiteHand[i].suite;
+  }
+  }
+//take out any non winning suite cards *********
+  var kp = 0;
+  while(kp < p1suiteHand.length){
+    if(p1suiteHand[kp].suite === p1flushSuit){
+      kp++;
+    } else {
+      p1suiteHand.splice(kp,1);
+    }
+  }
+  if(p1flushSuit !==""){
+//sort all like suite cards by value  *********
+    p1suiteHand.sort(function(a, b){
+      if(a.value < b.value) return -1;
+      if(a.value > b.value) return 1;
+      return 0;
+    });
+    if(p1BestHand === "flush"){
+      p1final = [p1suiteHand[p1suiteHand.length-5].value, p1suiteHand[p1suiteHand.length-4].value, p1suiteHand[p1suiteHand.length-3].value, p1suiteHand[p1suiteHand.length-2].value, p1suiteHand[p1suiteHand.length-1].value];
+      }
+
+  //check for straight flush
+    var str8 = false;
+    for (f = p1suiteHand.length-1; f > 3; f-=1){
+
+      if(
+        p1suiteHand[f].value-1 === p1suiteHand[f-1].value && p1suiteHand[f].value-2 === p1suiteHand[f-2].value && p1suiteHand[f].value-3 === p1suiteHand[f-3].value && p1suiteHand[f].value-4 === p1suiteHand[f-4].value && str8 === false){
+          p1BestHand = "straightFlush";
+          p1final = [p1suiteHand[f-4].value, p1suiteHand[f-3].value, p1suiteHand[f-2].value, p1suiteHand[f-1].value, p1suiteHand[f].value];
+          str8 = true;
+        }
+      }
+  }
+
+console.log(p1BestHand);
+console.log(p1final);
 
 
 });

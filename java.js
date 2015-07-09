@@ -320,6 +320,10 @@ $('.done').on('click', function(){
 //move fourth card code *************************
 
   var addMove4 = function(){
+
+    dealing();
+    setTimeout(promptp1,2200);
+
     var topp = 20;
     var right = 50;
 
@@ -344,10 +348,27 @@ $('.done').on('click', function(){
 
 $('#card').on('click',addMove4);
 
+var promptp1 = function(){
+  $('.playerContainer.hide').text('Player 1 Turn');
+};
+var dealing = function(){
+  $('.playerContainer.active').removeClass('active');
+  $('.playerContainer.hide').addClass('active');
+  $(".playerTab.highlight").removeClass('highlight');
+  $(".playerHide").addClass('highlight');
+  $('.playerContainer.hide').show();
+  $('.playerContainer.hide').css('width','150px');
+  $('.playerContainer.hide').text('Dealing...');
+};
+
 
 //move river card code *************************
 
   var addMove5 = function(){
+
+    dealing();
+    setTimeout(promptp1,2200);
+
     var top1 = 18;
     var right1 = 48;
     var card5move = setInterval(function(){
@@ -428,8 +449,13 @@ $('#p2raise').on('click',raisep2);
     $('.playerContainer.hide').addClass('active');
     $(".playerTab.highlight").removeClass('highlight');
     $(".playerHide").addClass('highlight');
-    $('.playerContainer.player2').slideUp(500);
-    $('.playerContainer.player1').slideUp(500);
+    $('.playerContainer.hide').fadeIn(1000);
+    // $('.playerContainer.player2').fadeIn(1000);
+    $('.playerContainer.player1').fadeIn(1000);
+    $('.playerContainer.player2').fadeIn(1000);
+    $('#yohand1').text("You folded with "+player1hand);
+    $('#yohand2').text("Player 1 folded");
+    $('.yourHand').css('left',"40px");
     currentRound = 0;
   };
 
@@ -446,13 +472,18 @@ $('#p1fold').on('click',foldp1);
     $('.p1bet').text('$'+player1Bet);
     $('.p1total').text('$'+player1Total);
 
-    //hide player containers
+    //show player containers
     $('.playerContainer.active').removeClass('active');
     $('.playerContainer.hide').addClass('active');
     $(".playerTab.highlight").removeClass('highlight');
     $(".playerHide").addClass('highlight');
-    $('.playerContainer.player2').slideUp(500);
-    $('.playerContainer.player1').slideUp(500);
+    $('.playerContainer.hide').fadeIn(1000);
+    // $('.playerContainer.player2').fadeIn(1000);
+    $('.playerContainer.player1').fadeIn(1000);
+    $('.playerContainer.player2').fadeIn(1000);
+    $('#yohand2').text("You folded with "+player2hand);
+    $('#yohand1').text("Player 2 folded");
+    $('.yourHand').css('left',"40px");
     player2Moved = true;
     currentRound = 1;
 
@@ -537,7 +568,8 @@ $('#p2fold').on('click',foldp2);
       $(".playerTab.highlight").removeClass('highlight');
       $(".playerHide").addClass('highlight');
       $('.playerContainer.hide').fadeIn(1000);
-      // $('.playerContainer.player2').fadeIn(1000);
+      $('.playerContainer.hide').css('width','100px');
+      $('.playerContainer.hide').text('');
       $('.playerContainer.player1').fadeIn(1000);
       $('.playerContainer.player2').fadeIn(1000);
     }
@@ -596,7 +628,8 @@ $('#p1call').on('click',callp1);
       $('.playerContainer.hide').fadeIn(1000);
       $(".playerTab.highlight").removeClass('highlight');
       $(".playerHide").addClass('highlight');
-      // $('.playerContainer.player2').fadeIn(1000);
+      $('.playerContainer.hide').css('width','100px');
+      $('.playerContainer.hide').text('');
       $('.playerContainer.player1').fadeIn(1000);
     }
 
@@ -843,7 +876,10 @@ for (i = p1suiteHand.length-1; i > 3 ; i-=1){
       p1final = [p1FHCheck[i],p1FHCheck[i],p1tres,p1tres,p1tres];
       }
     }
-      if(p1BestHand !== "straight" || p1BestHand !== "flush" || p1BestHand !== "fullhouse"){
+      if(p1BestHand == "straight" || p1BestHand == "flush" || p1BestHand == "fullhouse"){
+        p1BestHand = p1BestHand;
+        p1final = p1final;
+      } else if(p1trio === true){
       p1BestHand = "triple";
       p1final = [p1FHCheck[p1FHCheck.length-2],p1FHCheck[p1FHCheck.length-1],p1tres,p1tres,p1tres];
       }
@@ -878,7 +914,10 @@ for (i = p1suiteHand.length-1; i > 3 ; i-=1){
         }
       }
 
-      if( p2BestHand !== "straight" || p2BestHand !== "flush" || p2BestHand !== "fullhouse"){
+      if( p2BestHand == "straight" || p2BestHand == "flush" || p2BestHand == "fullhouse"){
+        p2BestHand = p2BestHand;
+        p2final = p2final;
+      }else if (p2trio === true){
       p2BestHand = "triple";
       p2final = [p2FHCheck[p2FHCheck.length-2],p2FHCheck[p2FHCheck.length-1],p2tres,p2tres,p2tres];
       }
@@ -1300,19 +1339,44 @@ if(p1BestHand === p2BestHand && p1BestHand ==="pair"){
 }
 //*********************************************************
     console.log("Winner was "+winner);
+
+    var winningHands = function(x){
+      if(x === "straightFlush"){
+        return "a straight flush!";
+      } else if(x === "quads"){
+        return "a four-of-a-kind!";
+      } else if(x === "fullhouse"){
+        return "a fullhouse!";
+      } else if(x === "flush"){
+        return "a flush!";
+      } else if (x === "straight"){
+        return "a straight!";
+      } else if (x === "triple"){
+        return "a three-of-a-kind!";
+      } else if (x === "twopair"){
+        return "two pairs!";
+      } else if(x === "pair"){
+        return "one pair!";
+      } else{
+        return "high card!";
+      }
+    };
+
     if (winner === "player1"){
-      $('#yohand1').text("You won with "+p1final);
-      $('#yohand2').text("You lost with "+p2final);
-      $('.yourHand').css('left',"80px");
+      $('#yohand1').text("You won with "+winningHands(p1BestHand));
+      $('#yohand2').text("You lost with "+winningHands(p2BestHand));
+      $('.yourHand').css('left',"60px");
     } else if (winner === "player2"){
-      $('#yohand2').text("You won with "+p2final);
-      $('#yohand1').text("You lost with "+p1final);
-      $('.yourHand').css('left',"80px");
+      $('#yohand2').text("You won with "+winningHands(p2BestHand));
+      $('#yohand1').text("You lost with "+winningHands(p1BestHand));
+      $('.yourHand').css('left',"60px");
     } else{
-      $('#yohand1').text("You tied with "+p1final);
-      $('#yohand2').text("You tied with "+p2final);
-      $('.yourHand').css('left',"80px");
+      $('#yohand1').text("You tied with "+winningHands(p1BestHand));
+      $('#yohand2').text("You tied with "+winningHands(p2BestHand));
+      $('.yourHand').css('left',"60px");
     }
+
+
   if(winner === "player2"){
     player2Total = player2Total + player1Bet + player2Bet;
     player2Bet = 0;

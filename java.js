@@ -621,7 +621,6 @@ var winna = function() {
 // player2hand = [2,3,6,9,14,14,14];
 // // player1suites = ["c","c","c","c","c","s","s"];
 
-// evaluate highest single card
   p1BestHand = null;
   p2BestHand = null;
 
@@ -961,27 +960,15 @@ for (i = p1suiteHand.length-1; i > 3 ; i-=1){
             }
         }
 
-  // for (i = player1hand.length-1; i > 2; i-=1){
-  //   if(player1hand[i] === player1hand[i-1] && player1hand[i] === player1hand[i-2] && player1hand[i] === player1hand[i-3]){
-  //   p1BestHand = "quads";
-  //   p1Final = [player1hand[player1hand.length-1],player1hand[i],player1hand[i-1],player1hand[i-2],player1hand[i-3]];
-  //   }
-  // }
-  //
-  //
-  // for (i = player2hand.length-1; i > 2; i-=1){
-  //   if(player2hand[i] === player2hand[i-1] && player2hand[i] === player2hand[i-2] && player2hand[i] === player2hand[i-3]){
-  //   p2BestHand = "quads";
-  //   }
-  // }
-
 //single hand calculation
-  if(p1BestHand === null){ p1final = [player1hand[player1hand.length-1],player1hand[player1hand.length-2],player1hand[player1hand.length-3],player1hand[player1hand.length-4],player1hand[player1hand.length-5]];}
+  if(p1BestHand === null){ p1final = [player1hand[player1hand.length-5],player1hand[player1hand.length-4],player1hand[player1hand.length-3],player1hand[player1hand.length-2],player1hand[player1hand.length-1]];}
 
-  if(p2BestHand === null){ p2Final = [player2hand[player2hand.length-1],player2hand[player2hand.length-2],player2hand[player2hand.length-3],player2hand[player2hand.length-4],player2hand[player2hand.length-5]];}
+  if(p2BestHand === null){ p2final = [player2hand[player2hand.length-5],player2hand[player2hand.length-4],player2hand[player2hand.length-3],player2hand[player2hand.length-2],player2hand[player2hand.length-1]];}
 
   console.log(p1BestHand);
   console.log(p2BestHand);
+  console.log(p1final);
+  console.log(p2final);
 
 var sfWinner = function(x,y,p){
   if(x === "straightFlush" && z === "quads" || x === "straightFlush" && y === "fullhouse" || x === "straightFlush" && y === "fullhouse" || x === "straightFlush" && y === "flush" || x === "straightFlush" && y === "straight" || x === "straightFlush" && y === "triple" || x === "straightFlush" && y === "twopair" || x === "straightFlush" && y === "pair" || x === "straightFlush" && y === null){
@@ -1307,6 +1294,19 @@ if(p1BestHand === p2BestHand && p1BestHand ==="pair"){
 }
 //*********************************************************
     console.log("Winner was "+winner);
+    if (winner === "player1"){
+      $('#yohand1').text("You won with "+p1final);
+      $('#yohand2').text("You lost with "+p2final);
+      $('.yourHand').css('left',"80px");
+    } else if (winner === "player2"){
+      $('#yohand2').text("You won with "+p2final);
+      $('#yohand1').text("You lost with "+p1final);
+      $('.yourHand').css('left',"80px");
+    } else{
+      $('#yohand1').text("You tied with "+p1final);
+      $('#yohand2').text("You tied with "+p2final);
+      $('.yourHand').css('left',"80px");
+    }
 
 };
 

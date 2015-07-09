@@ -22,6 +22,23 @@
   // if currentRound = 1 (next fourth); if currentRound = 2 (river)
   var currentRound = 1;
 
+  var dealerCard1;
+  var dealerCard2;
+  var dealerCard3;
+  var dealerCard4;
+  var dealerCard5;
+
+  var player1Card1;
+  var player1Card2;
+
+  var player2Card1;
+  var player2Card2;
+
+  var player1hand;
+  var player2hand;
+  var player1suites;
+  var player2suites;
+
 
 $( document ).ready(function() {
 
@@ -95,34 +112,6 @@ $( document ).ready(function() {
       $ca,$c2,$c3,$c4,$c5,$c6,$c7,$c8,$c9,$c10,$cj,$cq,$ck,
       $da,$d2,$d3,$d4,$d5,$d6,$d7,$d8,$d9,$d10,$dj,$dq,$dk];
 
-    var dealerCard1 = deck[draw()];
-    var dealerCard2 = deck[draw()];
-    var dealerCard3 = deck[draw()];
-    var dealerCard4 = deck[draw()];
-    var dealerCard5 = deck[draw()];
-
-    var player1Card1 = deck[draw()];
-    var player1Card2 = deck[draw()];
-
-    var player2Card1 = deck[draw()];
-    var player2Card2 = deck[draw()];
-
-    var player1hand = [dealerCard1.value, dealerCard2.value, dealerCard3.value, player1Card1.value, player1Card2.value];
-    player1hand = player1hand.sort(function(a, b){return a-b;});
-
-    var player1suites = [dealerCard1.suite, dealerCard2.suite, dealerCard3.suite, player1Card1.suite, player1Card2.suite];
-    player1suites = player1suites.sort();
-
-
-    console.log("P1 Hand: "+ player1hand + " "+player1suites);
-
-    var player2hand = [dealerCard1.value, dealerCard2.value, dealerCard3.value, player2Card1.value, player2Card2.value];
-    player2hand = player2hand.sort(function(a, b){return a-b;});
-
-    var player2suites = [dealerCard1.suite, dealerCard2.suite, dealerCard3.suite, player2Card1.suite, player2Card2.suite];
-    player2suites = player2suites.sort();
-
-    console.log("P2 Hand: "+player2hand + " "+player2suites);
 
   $('.next').on('click',function(){
     player1Total -= 5;
@@ -133,6 +122,68 @@ $( document ).ready(function() {
     $('.p1total').text('$'+player1Total);
     $('.p2bet').text('$'+player2Bet);
     $('.p2total').text('$'+player2Total);
+
+    $('#cardA').css('top',20);
+    $('#cardA').css('right',50);
+    $('#cardA').attr('src',"blueCard.png");
+    $('#cardB').css('top',18);
+    $('#cardB').css('right',48);
+    $('#cardB').attr('src',"blueCard.png");
+    $('#cardC').css('top',16);
+    $('#cardC').css('right',46);
+    $('#cardC').attr('src',"blueCard.png");
+    $('#card').css('top',20);
+    $('#card').css('right',50);
+    $('#card').attr('src',"blueCard.png");
+    $('#card1').css('top',20);
+    $('#card1').css('right',50);
+    $('#card1').attr('src',"blueCard.png");
+    $('#cardD').show();
+    $('#cardE').show();
+    $('#cardP1C1').attr('src',"blueCard.png");
+    $('#cardP1C2').attr('src',"blueCard.png");
+    $('#cardP2C1').attr('src',"blueCard.png");
+    $('#cardP2C2').attr('src',"blueCard.png");
+    $('.yourHand').css('left',"100px");
+    $('.yourHand').text("Your Hand");
+
+    if(played.length > 35){
+      played=[];
+    }
+    //callCount must be > 1 in a round to proceed
+    player2Moved = false;
+    // if currentRound = 1 (next fourth); if currentRound = 2 (river)
+    currentRound = 1;
+
+    dealerCard1 = deck[draw()];
+    dealerCard2 = deck[draw()];
+    dealerCard3 = deck[draw()];
+    dealerCard4 = deck[draw()];
+    dealerCard5 = deck[draw()];
+
+    player1Card1 = deck[draw()];
+    player1Card2 = deck[draw()];
+
+    player2Card1 = deck[draw()];
+    player2Card2 = deck[draw()];
+
+    player1hand = [dealerCard1.value, dealerCard2.value, dealerCard3.value, player1Card1.value, player1Card2.value];
+    player1hand = player1hand.sort(function(a, b){return a-b;});
+
+    player1suites = [dealerCard1.suite, dealerCard2.suite, dealerCard3.suite, player1Card1.suite, player1Card2.suite];
+    player1suites = player1suites.sort();
+
+
+    console.log("P1 Hand: "+ player1hand + " "+player1suites);
+
+    player2hand = [dealerCard1.value, dealerCard2.value, dealerCard3.value, player2Card1.value, player2Card2.value];
+    player2hand = player2hand.sort(function(a, b){return a-b;});
+
+    player2suites = [dealerCard1.suite, dealerCard2.suite, dealerCard3.suite, player2Card1.suite, player2Card2.suite];
+    player2suites = player2suites.sort();
+
+    console.log("P2 Hand: "+player2hand + " "+player2suites);
+
 
     moveDC1();
     setTimeout(moveDC2,1000);
@@ -175,24 +226,6 @@ $('.done').on('click', function(){
 });
 
   });
-
-  // var addMovep1c1 = function(){
-  //   var tops = 20;
-  //   var right = 50;
-  //
-  //   var cardmove = setInterval(function(){
-  //     console.log("works");
-  //     if(tops < 330 && right < 620){
-  //     tops = tops + 14.31;
-  //     right = right + 26.5;
-  //     $('#cardX1').css('top',tops);
-  //     $('#cardX1').css('right',right);
-  //     }else{
-  //       clearInterval(cardmove);
-  //     }
-  //
-  //   },20);
-  // };
 
   var moveDC1 = function(){
     var tops = 20;
@@ -307,29 +340,12 @@ $('.done').on('click', function(){
 
     },18);
 
-    // player1hand = [dealerCard1.value, dealerCard2.value, dealerCard3.value, dealerCard4.value, player1Card1.value, player1Card2.value];
-    // player1hand = player1hand.sort(function(a, b){return a-b;});
-    //
-    // player1suites = [dealerCard1.suite, dealerCard2.suite, dealerCard3.suite, dealerCard4.suite, player1Card1.suite, player1Card2.suite];
-    // player1suites = player1suites.sort();
-    //
-    //
-    // console.log("P1 Hand: "+ player1hand + " "+player1suites);
-    //
-    // player2hand = [dealerCard1.value, dealerCard2.value, dealerCard3.value, dealerCard4.value, player2Card1.value, player2Card2.value];
-    // player2hand = player2hand.sort(function(a, b){return a-b;});
-    //
-    // player2suites = [dealerCard1.suite, dealerCard2.suite, dealerCard3.suite, dealerCard4.suite, player2Card1.suite, player2Card2.suite];
-    // player2suites = player2suites.sort();
-    //
-    // console.log("P2 Hand: "+player2hand + " "+player2suites);
   };
 
 $('#card').on('click',addMove4);
 
 
 //move river card code *************************
-
 
   var addMove5 = function(){
     var top1 = 18;
@@ -479,12 +495,6 @@ $('#p2fold').on('click',foldp2);
       $(".playerHide").addClass('highlight');
       $('.playerContainer.player2').slideUp(500);
       $('.playerContainer.player1').slideUp(500);
-      // $('.playerContainer.active').removeClass('active');
-      // $('.playerContainer.player2').addClass('active');
-      // $(".playerTab.highlight").removeClass('highlight');
-      // $(".playerHide").addClass('highlight');
-      // $('.playerContainer.player2').slideUp(500);
-      // $('.playerContainer.player1').slideUp(500);
 
     }
 
@@ -520,12 +530,6 @@ $('#p2fold').on('click',foldp2);
     }
 
     if(player1Bet === player2Bet && currentRound === 3 && player2Moved === true){
-      // $('.playerContainer.active').removeClass('active');
-      // $('.playerContainer.player2').addClass('active');
-      // $(".playerTab.highlight").removeClass('highlight');
-      // $(".playerHide").addClass('highlight');
-      // $('.playerContainer.player2').slideUp(10);
-      // $('.playerContainer.player1').slideUp(10);
       winna();
 
       $('.playerContainer.active').removeClass('active');
@@ -585,11 +589,7 @@ $('#p1call').on('click',callp1);
 
     if(player1Bet === player2Bet && currentRound === 3){
       $('.playerContainer.active').removeClass('active');
-      // $('.playerContainer.player2').addClass('active');
-      // $(".playerTab.highlight").removeClass('highlight');
-      // $(".playerHide").addClass('highlight');
-      // $('.playerContainer.player2').slideUp(10);
-      // $('.playerContainer.player1').slideUp(10);
+
       winna();
 
       $('.playerContainer.hide').addClass('active');
@@ -643,12 +643,14 @@ var winna = function() {
     p1final = [p1pairsCheck[p1pairsCheck.length-3],p1pairsCheck[p1pairsCheck.length-2],p1pairsCheck[p1pairsCheck.length-1], p1duos,p1duos];
 
     //check for pair after pair
+    var p1pair2 = false;
     for (i = p1pairsCheck.length; i > 0; i-=1){
-      if(p1pairsCheck[i] === p1pairsCheck[i-1]){
+      if(p1pairsCheck[i] === p1pairsCheck[i-1] && p1pair2 === false){
       p1BestHand = "twopair";
       p1duo = p1pairsCheck[i];
       p1pairsCheck.splice(i,1);
       p1pairsCheck.splice(i-1,1);
+      p1pair2 = true;
       p1final = [p1pairsCheck[p1pairsCheck.length-1],p1duo,p1duo,p1duos,p1duos];
       }
     }
@@ -672,12 +674,14 @@ var winna = function() {
     p2final = [p2pairsCheck[p2pairsCheck.length-3],p2pairsCheck[p2pairsCheck.length-2],p2pairsCheck[p2pairsCheck.length-1], p2duos,p2duos];
 
     //check for pair after pair
+    var p2pair2 = false;
     for (i = p2pairsCheck.length; i > 0; i-=1){
-      if(p2pairsCheck[i] === p2pairsCheck[i-1]){
+      if(p2pairsCheck[i] === p2pairsCheck[i-1] && p2pair2 === false){
       p2BestHand = "twopair";
       p2duo = p2pairsCheck[i];
       p2pairsCheck.splice(i,1);
       p2pairsCheck.splice(i-1,1);
+      p2pair2 = true;
       p2final = [p2pairsCheck[p2pairsCheck.length-1],p2duo,p2duo,p2duos,p2duos];
       }
     }
@@ -701,6 +705,7 @@ for (i = p1StraightCheck.length-1; i > 0; i-=1){
     if(p1StraightCheck[i-1] === p1StraightCheck[i]-1 && p1StraightCheck[i-2] === p1StraightCheck[i]-2 && p1StraightCheck[i-3] === p1StraightCheck[i]-3  && p1StraightCheck[i-4] === p1StraightCheck[i]-4 && p1str ===false){
       p1BestHand = "straight";
       p1str = true;
+      p1final = [p1StraightCheck[i-4],p1StraightCheck[i-3],p1StraightCheck[i-2],p1StraightCheck[i-1],p1StraightCheck[i]];
     }
   }
 //*****************************************************
@@ -723,6 +728,7 @@ for (i = p1StraightCheck.length-1; i > 0; i-=1){
     if(p2StraightCheck[i-1] === p2StraightCheck[i]-1 && p2StraightCheck[i-2] === p2StraightCheck[i]-2 && p2StraightCheck[i-3] === p2StraightCheck[i]-3  && p2StraightCheck[i-4] === p2StraightCheck[i]-4 && p2str ===false){
       p2BestHand = "straight";
       p2str = true;
+      p2final = [p2StraightCheck[i-4],p2StraightCheck[i-3],p2StraightCheck[i-2],p2StraightCheck[i-1],p2StraightCheck[i]];
     }
   }
 
@@ -807,17 +813,7 @@ for (i = p1suiteHand.length-1; i > 3 ; i-=1){
           if(p2BestHand === "flush"){
             p2final = [p2suiteHand[p2suiteHand.length-5].value, p2suiteHand[p2suiteHand.length-4].value, p2suiteHand[p2suiteHand.length-3].value, p2suiteHand[p2suiteHand.length-2].value, p2suiteHand[p2suiteHand.length-1].value];
             }
-  // for (i = player1suites.length-1; i > 3; i-=1){
-  //   if(player1suites[i] === player1suites[i-1] && player1suites[i] === player1suites[i-2] && player1suites[i] === player1suites[i-3]  && player1suites[i] === player1suites[i-4]){
-  //     p1BestHand = "flush";
-  //   }
-  // }
-  //
-  // for (i = player2suites.length; i > 3; i-=1){
-  //   if(player2suites[i] === player2suites[i-1] && player2suites[i] === player2suites[i-2] && player2suites[i] === player2suites[i-3]  && player2suites[i] === player2suites[i-4]){
-  //     p2BestHand = "flush";
-  //   }
-  // }
+
 //**************************************************************
 
 //splice hand to remove pairs for FH / triple evaluation
@@ -831,22 +827,26 @@ for (i = p1suiteHand.length-1; i > 3 ; i-=1){
   for (i = p1FHCheck.length-1; i > 1; i-=1){
     if(p1FHCheck[i] === p1FHCheck[i-1] && p1FHCheck[i] === p1FHCheck[i-2] && p1trio === false){
 
-    p1BestHand = "triple";
     p1trio = true;
     p1tres = p1FHCheck[i];
+
     p1FHCheck.splice(i,1);
     p1FHCheck.splice(i-1,1);
     p1FHCheck.splice(i-2,1);
-    p1final = [p1FHCheck[p1FHCheck.length-2],p1FHCheck[p1FHCheck.length-1],p1tres,p1tres,p1tres];
 
     //check for pair after trio
+    var p1trioPair = false;
     for (i = p1FHCheck.length-1; i > 0; i-=1){
-      if(p1FHCheck[i] === p1FHCheck[i-1]){
-
+      if(p1FHCheck[i] === p1FHCheck[i-1] && p1trioPair === false){
+      p1trioPair = true;
       p1BestHand = "fullhouse";
       p1final = [p1FHCheck[i],p1FHCheck[i],p1tres,p1tres,p1tres];
       }
     }
+      if(p1BestHand !== "straight" || p1BestHand !== "flush" || p1BestHand !== "fullhouse"){
+      p1BestHand = "triple";
+      p1final = [p1FHCheck[p1FHCheck.length-2],p1FHCheck[p1FHCheck.length-1],p1tres,p1tres,p1tres];
+      }
     }
   }
 
@@ -861,20 +861,26 @@ for (i = p1suiteHand.length-1; i > 3 ; i-=1){
   for (i = p2FHCheck.length-1; i > 1; i-=1){
     if(p2FHCheck[i] === p2FHCheck[i-1] && p2FHCheck[i] === p2FHCheck[i-2] && p2trio === false){
 
-    p2BestHand = "triple";
     p2trio = true;
     p2tres = p2FHCheck[i];
+
     p2FHCheck.splice(i,1);
     p2FHCheck.splice(i-1,1);
     p2FHCheck.splice(i-2,1);
-    p2final = [p2FHCheck[p2FHCheck.length-2],p2FHCheck[p2FHCheck.length-1],p2tres,p2tres,p2tres];
 
     //check for pair after trio
+    var p2trioPair = false;
     for (i = p2FHCheck.length-1; i > 0; i-=1){
-      if(p2FHCheck[i] === p2FHCheck[i-1]){
+      if(p2FHCheck[i] === p2FHCheck[i-1] && p2trioPair === false){
+        p2trioPair = true;
         p2BestHand = "fullhouse";
         p2final = [p2FHCheck[i],p2FHCheck[i],p2tres,p2tres,p2tres];
         }
+      }
+
+      if( p2BestHand !== "straight" || p2BestHand !== "flush" || p2BestHand !== "fullhouse"){
+      p2BestHand = "triple";
+      p2final = [p2FHCheck[p2FHCheck.length-2],p2FHCheck[p2FHCheck.length-1],p2tres,p2tres,p2tres];
       }
     }
 
@@ -1307,6 +1313,36 @@ if(p1BestHand === p2BestHand && p1BestHand ==="pair"){
       $('#yohand2').text("You tied with "+p2final);
       $('.yourHand').css('left',"80px");
     }
+  if(winner === "player2"){
+    player2Total = player2Total + player1Bet + player2Bet;
+    player2Bet = 0;
+    player1Bet = 0;
+    $('.p1bet').text('$'+player1Bet);
+    $('.p1total').text('$'+player1Total);
+
+    $('.p2bet').text('$'+player2Bet);
+    $('.p2total').text('$'+player2Total);
+  } else if(winner === "player1"){
+    player1Total = player1Total + player2Bet + player1Bet;
+    player1Bet = 0;
+    player2Bet = 0;
+    $('.p2bet').text('$'+player2Bet);
+    $('.p2total').text('$'+player2Total);
+
+    $('.p1bet').text('$'+player1Bet);
+    $('.p1total').text('$'+player1Total);
+  } else {
+    player1Total = player1Total + player1Bet;
+    player2Total = player2Total + player2Bet;
+    player1Bet = 0;
+    player2Bet = 0;
+    $('.p2bet').text('$'+player2Bet);
+    $('.p2total').text('$'+player2Total);
+
+    $('.p1bet').text('$'+player1Bet);
+    $('.p1total').text('$'+player1Total);
+  }
+
 
 };
 

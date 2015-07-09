@@ -191,10 +191,9 @@ $( document ).ready(function() {
     $('.playerContainer.player2').slideDown(300);
     $('.playerContainer.player1').slideDown(300);
     $('.playerContainer.player2').hide(2000, function(){
-      $('.playerContainer.player1').hide(2000, function(){
-        $('.playerContainer.hide').hide(200, flopDelay);
-      });
+      $('.playerContainer.player1').hide(2000, flopDelay);
     });
+    setTimeout(promptp1,3800);
 
 
     var flopDelay = function(){
@@ -215,17 +214,39 @@ $( document ).ready(function() {
       $('#cardP2C2').css('opacity',1);
     };
 
-//done raising button *********************
-$('.done').on('click', function(){
-  // $('.playerContainer.active').removeClass('active');
-  // $('.playerContainer.player2').addClass('active');
-  $(".playerTab.highlight").removeClass('highlight');
-  $(".playerHide").addClass('highlight');
-  $('.playerContainer.player2').slideUp(500);
-  $('.playerContainer.player1').slideUp(500);
-});
-
   });
+
+  //done raising button *********************
+  $('#p1done').on('click', function(){
+      if(player1Bet > player2Bet){
+        $('.playerContainer.hide').addClass('active');
+        $('.playerContainer.hide').css('width','150px');
+        $('.playerContainer.hide').text('Player 2 Turn');
+      }
+
+    $(".playerTab.highlight").removeClass('highlight');
+    $(".playerHide").addClass('highlight');
+    // $('.playerContainer.player2').slideUp(500);
+    $('.playerContainer.player1').slideUp(500, function(){
+            $('.playerContainer.hide').show();
+    });
+  });
+
+  $('#p2done').on('click', function(){
+      if(player2Bet > player1Bet){
+        $('.playerContainer.hide').addClass('active');
+        $('.playerContainer.hide').css('width','150px');
+        $('.playerContainer.hide').text('Player 1 Turn');
+      }
+
+    $(".playerTab.highlight").removeClass('highlight');
+    $(".playerHide").addClass('highlight');
+    // $('.playerContainer.player1').slideUp(500);
+    $('.playerContainer.player2').slideUp(500, function(){
+            $('.playerContainer.hide').show();
+    });
+  });
+
 
   var moveDC1 = function(){
     var tops = 20;
@@ -284,7 +305,7 @@ $('.done').on('click', function(){
 
 //highlight  player1 tab when selected *************************
     $(".player1tab").on('click',function(){
-    $('.playerContainer.active').slideUp(500, function(){
+    $('.playerContainer.active').slideUp(10, function(){
           $('.playerContainer.player1').slideDown(800);
     });
     $('.playerContainer.active').removeClass('active');
@@ -296,7 +317,7 @@ $('.done').on('click', function(){
 
 //highlight  player2 tab when selected *************************
   $(".player2tab").on('click',function(){
-    $('.playerContainer.active').slideUp(500, function(){
+    $('.playerContainer.active').slideUp(10, function(){
           $('.playerContainer.player2').slideDown(800);
     });
     $('.playerContainer.active').removeClass('active');
@@ -349,8 +370,20 @@ $('.done').on('click', function(){
 $('#card').on('click',addMove4);
 
 var promptp1 = function(){
+  $('.playerContainer.hide').css('width','150px');
   $('.playerContainer.hide').text('Player 1 Turn');
 };
+
+var promptp2 = function(){
+  $('.playerContainer.active').removeClass('active');
+  $('.playerContainer.hide').addClass('active');
+  $(".playerTab.highlight").removeClass('highlight');
+  $(".playerHide").addClass('highlight');
+  $('.playerContainer.hide').show();
+  $('.playerContainer.hide').css('width','150px');
+  $('.playerContainer.hide').text('Player 2 Turn');
+};
+
 var dealing = function(){
   $('.playerContainer.active').removeClass('active');
   $('.playerContainer.hide').addClass('active');
@@ -513,8 +546,8 @@ $('#p2fold').on('click',foldp2);
       $('.playerContainer.hide').addClass('active');
       $(".playerTab.highlight").removeClass('highlight');
       $(".playerHide").addClass('highlight');
-      $('.playerContainer.player2').slideUp(500);
-      $('.playerContainer.player1').slideUp(500);
+      // $('.playerContainer.player2').slideUp(500);
+      $('.playerContainer.player1').slideUp(500, promptp2);
 
     }
 
@@ -534,8 +567,8 @@ $('#p2fold').on('click',foldp2);
       $('.playerContainer.hide').addClass('active');
       $(".playerTab.highlight").removeClass('highlight');
       $(".playerHide").addClass('highlight');
-      $('.playerContainer.player2').slideUp(500);
-      $('.playerContainer.player1').slideUp(500);
+      // $('.playerContainer.player2').slideUp(500);
+      $('.playerContainer.player1').slideUp(500, promptp2);
 
     }
 
@@ -555,8 +588,8 @@ $('#p2fold').on('click',foldp2);
       $('.playerContainer.hide').addClass('active');
       $(".playerTab.highlight").removeClass('highlight');
       $(".playerHide").addClass('highlight');
-      $('.playerContainer.player2').slideUp(500);
-      $('.playerContainer.player1').slideUp(500);
+      // $('.playerContainer.player2').slideUp(500);
+      $('.playerContainer.player1').slideUp(500, promptp2);
 
     }
 
@@ -1016,7 +1049,7 @@ for (i = p1suiteHand.length-1; i > 3 ; i-=1){
   console.log(p2final);
 
 var sfWinner = function(x,y,p){
-  if(x === "straightFlush" && z === "quads" || x === "straightFlush" && y === "fullhouse" || x === "straightFlush" && y === "fullhouse" || x === "straightFlush" && y === "flush" || x === "straightFlush" && y === "straight" || x === "straightFlush" && y === "triple" || x === "straightFlush" && y === "twopair" || x === "straightFlush" && y === "pair" || x === "straightFlush" && y === null){
+  if(x === "straightFlush" && y === "quads" || x === "straightFlush" && y === "fullhouse" || x === "straightFlush" && y === "fullhouse" || x === "straightFlush" && y === "flush" || x === "straightFlush" && y === "straight" || x === "straightFlush" && y === "triple" || x === "straightFlush" && y === "twopair" || x === "straightFlush" && y === "pair" || x === "straightFlush" && y === null){
       winner = p;
   }
 };

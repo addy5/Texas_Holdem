@@ -219,11 +219,10 @@ $( document ).ready(function() {
   //done raising button *********************
   $('#p1done').on('click', function(){
       if(player1Bet > player2Bet){
-        $('.playerContainer.hide').addClass('active');
         $('.playerContainer.hide').css('width','150px');
         $('.playerContainer.hide').text('Player 2 Turn');
       }
-
+    $('.playerContainer.hide').addClass('active');
     $(".playerTab.highlight").removeClass('highlight');
     $(".playerHide").addClass('highlight');
     // $('.playerContainer.player2').slideUp(500);
@@ -234,11 +233,10 @@ $( document ).ready(function() {
 
   $('#p2done').on('click', function(){
       if(player2Bet > player1Bet){
-        $('.playerContainer.hide').addClass('active');
         $('.playerContainer.hide').css('width','150px');
         $('.playerContainer.hide').text('Player 1 Turn');
       }
-
+    $('.playerContainer.hide').addClass('active');
     $(".playerTab.highlight").removeClass('highlight');
     $(".playerHide").addClass('highlight');
     // $('.playerContainer.player1').slideUp(500);
@@ -482,9 +480,11 @@ $('#p2raise').on('click',raisep2);
     $('.playerContainer.hide').addClass('active');
     $(".playerTab.highlight").removeClass('highlight');
     $(".playerHide").addClass('highlight');
+    $('.playerContainer.hide').css("width","103px");
+    $('.playerContainer.hide').text("");
     $('.playerContainer.hide').fadeIn(1000);
     // $('.playerContainer.player2').fadeIn(1000);
-    $('.playerContainer.player1').fadeIn(1000);
+    // $('.playerContainer.player1').fadeIn(1000);
     $('.playerContainer.player2').fadeIn(1000);
     $('#yohand1').text("You folded with "+player1hand);
     $('#yohand2').text("Player 1 folded");
@@ -509,11 +509,13 @@ $('#p1fold').on('click',foldp1);
     $('.playerContainer.active').removeClass('active');
     $('.playerContainer.hide').addClass('active');
     $(".playerTab.highlight").removeClass('highlight');
+    $('.playerContainer.hide').css("width","103px");
+    $('.playerContainer.hide').text("");
     $(".playerHide").addClass('highlight');
     $('.playerContainer.hide').fadeIn(1000);
     // $('.playerContainer.player2').fadeIn(1000);
     $('.playerContainer.player1').fadeIn(1000);
-    $('.playerContainer.player2').fadeIn(1000);
+    // $('.playerContainer.player2').fadeIn(1000);
     $('#yohand2').text("You folded with "+player2hand);
     $('#yohand1').text("Player 2 folded");
     $('.yourHand').css('left',"40px");
@@ -761,6 +763,10 @@ for(i = 0; i < player1hand.length; i++){
   p1StraightCheck[i] = player1hand[i];
 }
 
+if(p1StraightCheck[p1StraightCheck.length-1] === 14){
+  p1StraightCheck.unshift(1);
+}
+
 for (i = p1StraightCheck.length-1; i > 0; i-=1){
   if(p1StraightCheck[i] === p1StraightCheck[i-1]){
     p1StraightCheck.splice(i,1);
@@ -784,11 +790,15 @@ for (i = p1StraightCheck.length-1; i > 0; i-=1){
     p2StraightCheck[i] = player2hand[i];
   }
 
-  for (i = p2StraightCheck.length-1; i > 0; i-=1){
-    if(p2StraightCheck[i] === p2StraightCheck[i-1]){
-      p2StraightCheck.splice(i,1);
-    }
+  if(p2StraightCheck[p2StraightCheck.length-1] === 14){
+    p2StraightCheck.unshift(1);
   }
+
+    for (i = p2StraightCheck.length-1; i > 0; i-=1){
+      if(p2StraightCheck[i] === p2StraightCheck[i-1]){
+        p2StraightCheck.splice(i,1);
+      }
+    }
 
   for (i = p2StraightCheck.length-1; i > 3; i-=1){
     if(p2StraightCheck[i-1] === p2StraightCheck[i]-1 && p2StraightCheck[i-2] === p2StraightCheck[i]-2 && p2StraightCheck[i-3] === p2StraightCheck[i]-3  && p2StraightCheck[i-4] === p2StraightCheck[i]-4 && p2str ===false){
@@ -800,8 +810,8 @@ for (i = p1StraightCheck.length-1; i > 0; i-=1){
 
 //*****************************************************
 
-//check for flush evaluations
-//take p1 total cards   *********
+//check for flush evaluations  *************************
+//take p1 total cards
 var p1suiteHand = [dealerCard1,dealerCard2,dealerCard3,dealerCard4,dealerCard5,player1Card1,player1Card2];
 //sort p1 total cards by suite  *********
 p1suiteHand.sort(function(a, b){
@@ -1007,9 +1017,13 @@ for (i = p1suiteHand.length-1; i > 3 ; i-=1){
       }
     }
 
-
-    //check for straight flush
+//****check for straight flushes**********************************
+    //check for straight flush for p1
     if(p1flushSuit !==""){
+
+      if(p1suiteHand[p1suiteHand.length-1] === 14){
+        p1suiteHand.unshift(1);
+      }
 
         var str8 = false;
         for (f = p1suiteHand.length-1; f > 3; f-=1){
@@ -1023,8 +1037,12 @@ for (i = p1suiteHand.length-1; i > 3 ; i-=1){
           }
       }
 
-      //check for straight flush
+      //check for straight flush for p2
       if(p2flushSuit !==""){
+
+        if(p2suiteHand[p2suiteHand.length-1] === 14){
+          p2suiteHand.unshift(1);
+        }
 
           var str9 = false;
           for (f = p2suiteHand.length-1; f > 3; f-=1){

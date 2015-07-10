@@ -49,7 +49,7 @@ $( document ).ready(function() {
   $('.p1bet').text("$"+player1Bet);
   $('.p2bet').text("$"+player2Bet);
 
-
+  $s1 = {suite: "s",value: 1, image: "spade/sa.png"};
   $sa = {suite: "s",value: 14, image: "spade/sa.png"};
   $s2 = {suite: "s",value: 2, image: "spade/s2.png"};
   $s3 = {suite: "s",value: 3, image: "spade/s3.png"};
@@ -64,6 +64,7 @@ $( document ).ready(function() {
   $sq = {suite: "s",value: 12, image: "spade/sq.png"};
   $sk = {suite: "s",value: 13, image: "spade/sk.png"};
 
+  $h1 = {suite: "h",value: 1, image: "hearts/ha.png"};
   $ha = {suite: "h",value: 14, image: "hearts/ha.png"};
   $h2 = {suite: "h",value: 2, image: "hearts/h2.png"};
   $h3 = {suite: "h",value: 3, image: "hearts/h3.png"};
@@ -78,7 +79,7 @@ $( document ).ready(function() {
   $hq = {suite: "h",value: 12, image: "hearts/hq.png"};
   $hk = {suite: "h",value: 13, image: "hearts/hk.png"};
 
-
+  $c1 = {suite: "c",value: 1, image: "clover/ca.png"};
   $ca = {suite: "c",value: 14, image: "clover/ca.png"};
   $c2 = {suite: "c",value: 2, image: "clover/c2.png"};
   $c3 = {suite: "c",value: 3, image: "clover/c3.png"};
@@ -93,6 +94,7 @@ $( document ).ready(function() {
   $cq = {suite: "c",value: 12, image: "clover/cq.png"};
   $ck = {suite: "c",value: 13, image: "clover/ck.png"};
 
+  $d1 = {suite: "d",value: 1, image: "diamond/da.png"};
   $da = {suite: "d",value: 14, image: "diamond/da.png"};
   $d2 = {suite: "d",value: 2, image: "diamond/d2.png"};
   $d3 = {suite: "d",value: 3, image: "diamond/d3.png"};
@@ -368,6 +370,11 @@ $( document ).ready(function() {
 $('#card').on('click',addMove4);
 
 var promptp1 = function(){
+  $('.playerContainer.active').removeClass('active');
+  $('.playerContainer.hide').addClass('active');
+  $(".playerTab.highlight").removeClass('highlight');
+  $(".playerHide").addClass('highlight');
+  $('.playerContainer.hide').show();  
   $('.playerContainer.hide').css('width','150px');
   $('.playerContainer.hide').text('Player 1 Turn');
 };
@@ -486,7 +493,7 @@ $('#p2raise').on('click',raisep2);
     // $('.playerContainer.player2').fadeIn(1000);
     // $('.playerContainer.player1').fadeIn(1000);
     $('.playerContainer.player2').fadeIn(1000);
-    $('#yohand1').text("You folded with "+player1hand);
+    $('#yohand1').text("You folded");
     $('#yohand2').text("Player 1 folded");
     $('.yourHand').css('left',"40px");
     currentRound = 0;
@@ -516,7 +523,7 @@ $('#p1fold').on('click',foldp1);
     // $('.playerContainer.player2').fadeIn(1000);
     $('.playerContainer.player1').fadeIn(1000);
     // $('.playerContainer.player2').fadeIn(1000);
-    $('#yohand2').text("You folded with "+player2hand);
+    $('#yohand2').text("You folded");
     $('#yohand1').text("Player 2 folded");
     $('.yourHand').css('left',"40px");
     player2Moved = true;
@@ -1021,8 +1028,16 @@ for (i = p1suiteHand.length-1; i > 3 ; i-=1){
     //check for straight flush for p1
     if(p1flushSuit !==""){
 
-      if(p1suiteHand[p1suiteHand.length-1] === 14){
-        p1suiteHand.unshift(1);
+      if(p1suiteHand[p1suiteHand.length-1].value === 14){
+          if(p1flushSuit === "s"){
+            p1suiteHand.unshift($s1);
+          } else if(p1flushSuit === "h"){
+            p1suiteHand.unshift($h1);
+          } else if( p1flushSuit === "c"){
+            p1suiteHand.unshift($c1);
+          } else if( p1flushSuit === "d"){
+            p1suiteHand.unshift($d1);
+          }
       }
 
         var str8 = false;
@@ -1040,8 +1055,16 @@ for (i = p1suiteHand.length-1; i > 3 ; i-=1){
       //check for straight flush for p2
       if(p2flushSuit !==""){
 
-        if(p2suiteHand[p2suiteHand.length-1] === 14){
-          p2suiteHand.unshift(1);
+        if(p2suiteHand[p2suiteHand.length-1].value === 14){
+          if(p2flushSuit === "s"){
+            p2suiteHand.unshift($s1);
+          } else if(p2flushSuit === "h"){
+            p2suiteHand.unshift($h1);
+          } else if( p2flushSuit === "c"){
+            p2suiteHand.unshift($c1);
+          } else if( p1flushSuit === "d"){
+            p2suiteHand.unshift($d1);
+          }
         }
 
           var str9 = false;
@@ -1461,7 +1484,133 @@ if(p1BestHand === p2BestHand && p1BestHand ==="pair"){
 
 };
 
-
-
+//card animations
+//
+// $cardK = $('#cardK');
+// var topK = 18;
+// var rightK = 48;
+// var rotK = 0;
+// var shuffleK = setInterval(function(){
+//
+//
+//   if(topK < 80 || rightK < 400){
+//   topK = topK + 1;
+//   rightK = rightK + 8.5;
+//   rotK = rotK + 0.2;
+//   $cardK.css('top',topK);
+//   $cardK.css('right',rightK);
+//   $cardK.css('transform','rotate('+rotK+'deg)');
+//   }else{
+//     clearInterval(shuffleK);
+//   }
+// },18);
+// //*************************************
+// $cardR = $('#cardR');
+// var topR = 18;
+// var rightR = 48;
+// var rotR = 0;
+// var shuffleR = setInterval(function(){
+//
+//   if(topR < 90 || rightR < 380){
+//   topR = topR + 1.1;
+//   rightR = rightR + 7.1;
+//   rotR = rotR + 0.18;
+//   $cardR.css('top',topR);
+//   $cardR.css('right',rightR);
+//   $cardR.css('transform','rotate('+rotR+'deg)');
+//   }else{
+//     clearInterval(shuffleR);
+//   }
+// },18);
+//
+// $cardT = $('#cardT');
+// var topT = 18;
+// var rightT = 48;
+// var rotT = 0;
+// var shuffleT = setInterval(function(){
+//
+//   if(topT < 95 || rightT < 360){
+//   topT = topT + 1.03;
+//   rightT = rightT + 5.6;
+//   rotT = rotT + 0.14;
+//   $cardT.css('top',topT);
+//   $cardT.css('right',rightT);
+//   $cardT.css('transform','rotate('+rotT+'deg)');
+//   }else{
+//     clearInterval(shuffleT);
+//   }
+// },18);
+//
+// $cardY = $('#cardY');
+// var topY = 18;
+// var rightY = 48;
+// var rotY = 0;
+// var shuffleY = setInterval(function(){
+//
+//   if(topY < 100 || rightY < 360){
+//   topY = topY + 1.1;
+//   rightY = rightY + 4.9;
+//   rotY = rotY + 0.14;
+//   $cardY.css('top',topY);
+//   $cardY.css('right',rightY);
+//   $cardY.css('transform','rotate('+rotY+'deg)');
+//   }else{
+//     clearInterval(shuffleY);
+//   }
+// },18);
+//
+// $cardU = $('#cardU');
+// var topU = 18;
+// var rightU = 48;
+// var rotU = 0;
+// var shuffleU = setInterval(function(){
+//
+//   if(topU < 100 || rightU < 360){
+//   topU = topU + 1.1;
+//   rightU = rightU + 4.3;
+//   rotU = rotU + 0.11;
+//   $cardU.css('top',topU);
+//   $cardU.css('right',rightU);
+//   $cardU.css('transform','rotate('+rotU+'deg)');
+//   }else{
+//     clearInterval(shuffleU);
+//   }
+// },18);
+//
+// $cardI = $('#cardI');
+// var topI = 18;
+// var rightI = 48;
+// var rotI = 0;
+// var shuffleI = setInterval(function(){
+//
+//   if(topI < 95 || rightI < 200){
+//   topI = topI + 0.87;
+//   rightI = rightI + 3.2;
+//   rotI = rotI + 0.08;
+//   $cardI.css('top',topI);
+//   $cardI.css('right',rightI);
+//   $cardI.css('transform','rotate('+rotI+'deg)');
+//   }else{
+//     clearInterval(shuffleI);
+//   }
+// },18);
+//
+// $cardO = $('#cardO');
+// var topO = 18;
+// var rightO = 48;
+// var rotO = 0;
+// var shuffleO = setInterval(function(){
+//
+//   if(topO < 95 || rightO < 170){
+//   topO = topO + 0.87;
+//   rightO = rightO + 2.7;
+//   rotO = rotO + 0.05;
+//   $cardO.css('top',topO);
+//   $cardO.css('right',rightO);
+//   $cardO.css('transform','rotate('+rotO+'deg)');
+//   }else{
+//     clearInterval(shuffleO);
+//   }
+// },18);
 
 });

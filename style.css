@@ -175,29 +175,36 @@ button.next{
   border-radius: 4px;
 }
 
-/*#cardA{
+#cardK, #cardR, #cardT, #cardY, #cardU, #cardI,#cardO,#cardN,#cardM,#cardH{
   height: 140px;
   position: absolute;
-  bottom: 14px;
-  left: 25px;
+  top: 18px;
+  right:48px;
+  z-index: 3;
   border-radius: 4px;
 }
 
-#cardB{
-  height: 140px;
-  position: absolute;
-  bottom: 14px;
-  left: 135px;
-  border-radius: 4px;
-}*/
-
-/*#cardC{
-  height: 140px;
-  position: absolute;
-  bottom: 14px;
-  left: 245px;
-  border-radius: 4px;
-}*/
+#cardK{
+  z-index: 14;
+}#cardR{
+  z-index: 13;
+}#cardT{
+  z-index: 12;
+}#cardY{
+  z-index: 11;
+}#cardU{
+  z-index: 10;
+}#cardI{
+  z-index: 9;
+}#cardO{
+  z-index: 8;
+}#cardN{
+  z-index: 7;
+}#cardM{
+  z-index: 6;
+}#cardH{
+  z-index: 5;
+}
 
 #cardD{
   height: 140px;
@@ -306,7 +313,7 @@ button.next{
 #cardP1C1{
   height: 140px;
   position: absolute;
-  bottom: 32px;
+  bottom: 40px;
   left:30px;
   border-radius: 4px;
   opacity:0.2;
@@ -315,7 +322,7 @@ button.next{
 #cardP1C2{
   height: 140px;
   position: absolute;
-  bottom: 32px;
+  bottom: 40px;
   left:135px;
   border-radius: 4px;
   opacity:0.2;
@@ -324,7 +331,7 @@ button.next{
 #cardP2C1{
   height: 140px;
   position: absolute;
-  bottom: 32px;
+  bottom: 40px;
   left:30px;
   border-radius: 4px;
   opacity:0.2;
@@ -333,7 +340,7 @@ button.next{
 #cardP2C2{
   height: 140px;
   position: absolute;
-  bottom: 32px;
+  bottom: 40px;
   left:135px;
   border-radius: 4px;
   opacity:0.2;
